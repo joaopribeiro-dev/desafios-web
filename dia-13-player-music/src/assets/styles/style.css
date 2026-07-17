@@ -1,0 +1,71 @@
+main {
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card {
+    width: 30%;
+    height: 75%;
+    background-color: rgb(26, 25, 25);
+    border: 1px solid white;
+    box-shadow: 0px 0px 100px 5px white;
+    padding: 15px;
+    transition: 2s;
+}
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 0px 100px 5px rgb(39, 39, 39);
+}
+.music {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+.music > img {
+    width: 75%;
+    height: 300px;
+}
+.progresso {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.time {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+.barra-progresso {
+    width: 80%;
+    height: 7px;
+    background-color: black;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+.barra-progresso-interna {
+    width: 35%;
+    height: 3px;
+    background-color: white;
+}
+.botao-player {
+    display: flex;
+    gap: 15px;
+}
+button {
+    background: none;
+    cursor: pointer;
+}
+button > img {
+    width: 30px;
+    height: 30px;
+}
