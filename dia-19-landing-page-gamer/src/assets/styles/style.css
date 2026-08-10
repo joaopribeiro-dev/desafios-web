@@ -107,10 +107,15 @@ h2 {
 }
 .cards:hover {
     transform: scale(1.1);
+    border: 3px solid white;
 }
 .cards > img {
     width: 200px;
     height: 200px;
+    transition: 1s;
+}
+.cards > img:hover {
+    transform: scale(1.1);
 }
 .inscricoes {
     width: 100%;
@@ -162,10 +167,12 @@ form > button {
     background-color: red;
     color: white;
     padding: 8px 20px;
+    transition: 1s;
 }
 form > button:hover {
     cursor: pointer;
     background-color: green;
+    transform: scale(1.1);
 }
 .beneficios-vip {
     width: 350px;
