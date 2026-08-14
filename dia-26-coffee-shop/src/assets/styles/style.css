@@ -1,0 +1,54 @@
+header {
+    width: 100%;
+    background-color: black;
+    color: white;
+    position: fixed;
+    z-index: 1000;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px;
+}
+nav {
+    display: flex;
+    gap: 20px;
+}
+a {
+    color: white;
+}
+main {
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgb(63, 42, 4);
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 50px;
+}
+hr {
+    width: 80%;
+    border: 1px solid white;
+    margin: 10px;
+}
+h1 {
+    font-size: 56px;
+    font-weight: 700;
+}
+.descricao {
+    width: 750px;
+    font-size: 18px;
+    text-align: center;
+}
+button {
+    background-color: rgb(5, 78, 5);
+    color: white;
+    border: 1px solid yellow;
+    border-radius: 10px;
+    padding: 8px 20px;
+}
