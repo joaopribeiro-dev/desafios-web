@@ -73,6 +73,7 @@ button {
 .sobre-secao {
     background-color: rgb(51, 27, 8);
     color: white;
+    border-radius: 10px;
 
     display: flex;
     flex-direction: column;
