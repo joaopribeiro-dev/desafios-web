@@ -52,6 +52,9 @@ button {
     border-radius: 10px;
     padding: 8px 20px;
 }
+button:hover {
+    cursor: pointer;
+}
 .cardapio {
     width: 100%;
     height: auto;
@@ -69,6 +72,11 @@ button {
 .cardapio > h2 {
     font-size: 48px;
     font-weight: 700;
+}
+.cardapio > hr {
+    width: 95%;
+    border: 1px solid white;
+    margin: 10px;
 }
 .sobre-secao {
     background-color: rgb(51, 27, 8);
@@ -110,6 +118,11 @@ h2 {
 
     padding: 15px;
     gap: 15px;
+    transition: 1s;
+}
+.card-info:hover {
+    background-color: rgba(65, 42, 1, 0.15);
+    transform: scale(1.05);
 }
 .card-info > img {
     width: 200px;
@@ -122,6 +135,12 @@ h3 {
 .card-info > p {
     width: 75%;
     font-size: 16px;
+}
+.card-info > button {
+    background-color: rgb(83, 54, 0);
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 8px 20px;
 }
 .preco {
     color: yellow;
