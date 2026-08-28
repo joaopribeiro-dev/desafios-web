@@ -40,7 +40,7 @@ h1 {
     font-size: 56px;
     font-weight: 700;
 }
-.descricao {
+.sobre {
     width: 750px;
     font-size: 18px;
     text-align: center;
@@ -67,6 +67,7 @@ button:hover {
     align-items: center;
 
     padding-top: 50px;
+    padding-bottom: 50px;
     gap: 30px;
 }
 .cardapio > h2 {
@@ -145,4 +146,54 @@ h3 {
 .preco {
     color: yellow;
     font-weight: 700;
+}
+.localizacao {
+    height: 85vh;
+    background-color: rgb(43, 23, 1);
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding-top: 30px;
+    gap: 30px;
+}
+.local {
+    background-color: rgb(82, 56, 23);
+    border: 1px solid white;
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px;
+    gap: 100px;
+}
+.local > img {
+    width: 350px;
+    height: 350px;
+    border-radius: 10px;
+}
+.descricao {
+    width: 500px;
+    background-color: rgb(209, 176, 145);
+    color: black;
+    border: 1px solid white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+
+    padding: 5px;
+    gap: 30px;
+}
+.descricao > h3 {
+    font-size: 28px;
+    display: flex;
+    justify-content: center;
+}
+.descricao > p {
+    font-size: 18px;
 }
