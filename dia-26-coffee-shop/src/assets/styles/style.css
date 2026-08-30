@@ -197,3 +197,34 @@ h3 {
 .descricao > p {
     font-size: 18px;
 }
+footer {
+    height: 50vh;
+    background-color: rgb(102, 67, 22);
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    padding-top: 50px;
+}
+.agendamento {
+    background-color: rgb(87, 50, 1);
+    border: 1px solid white;
+    border-radius: 10px;
+    
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    gap: 50px;
+}
+.agendamento > p {
+    width: 450px;
+    font-size: 18px;
+}
+.contatos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
