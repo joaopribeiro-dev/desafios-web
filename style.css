@@ -1,3 +1,17 @@
+@keyframes blackwhite {
+    0% {
+        box-shadow: 0px 0px 5px 5px white;
+    }
+    33% {
+        box-shadow: 0px 0px 5px 5px black;
+    }
+    66% {
+        box-shadow: 0px 0px 5px 5px white;
+    }
+    100% {
+        box-shadow: 0px 0px 5px 5px black;
+    }
+}
 body {
     background-color: black;
     color: white;
@@ -11,6 +25,8 @@ header {
 h1 {
     font-size: 56px;
     font-weight: 700;
+    border-radius: 10px;
+    animation: blackwhite 3s ease-in-out infinite alternate;
 }
 hr {
     margin: 10px;
@@ -23,6 +39,9 @@ ul {
 }
 a {
     color: white;
+}
+a:hover {
+    color: yellow;
 }
 .group-cards {
     display: flex;
@@ -41,6 +60,9 @@ a {
     align-items: center;
     padding: 25px;
     gap: 15px;
+}
+.card:hover {
+    animation: blackwhite 3s ease-in-out infinite alternate;
 }
 .card > img {
     width: 250px;
