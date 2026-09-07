@@ -70,3 +70,39 @@ a:hover {
     border: 1px solid white;
     border-radius: 10px;
 }
+@media screen and (max-width: 1024px) {
+  .group-cards {
+    gap: 40px;
+    padding: 20px;
+  }
+}
+@media screen and (max-width: 768px) {
+  header {
+    padding: 15px 10px;
+  }
+  h1 {
+    font-size: 32px;
+    text-align: center;
+    padding: 10px;
+  }
+  .group-cards {
+    gap: 30px;
+    padding: 15px;
+  }
+  .card {
+    width: 100%;
+    max-width: 280px;
+    padding: 15px;
+  }
+  .card > img {
+    width: 100%;
+    height: auto;
+  }
+  details {
+    width: 100%;
+    font-size: 14px;
+  }
+  ul {
+    padding-left: 15px;
+  }
+}
