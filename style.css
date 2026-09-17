@@ -22,11 +22,21 @@ header {
     align-items: center;
     padding: 10px;
 }
+nav {
+    display: flex;
+    gap: 50px;
+}
 h1 {
-    font-size: 56px;
+    font-size: 48px;
     font-weight: 700;
     border-radius: 10px;
     animation: blackwhite 3s ease-in-out infinite alternate;
+}
+body > h2 {
+    text-decoration: underline;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .linguagens {
     display: flex;
@@ -176,7 +186,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 50px;
+    padding: 15px;
 }
 @media screen and (max-width: 1024px) {
   .group-cards {
