@@ -84,6 +84,36 @@ body > h2 {
     justify-content: center;
     padding: 5px;
 }
+.em-andamento {
+    width: 10%;
+    background-color: rgb(27, 27, 27);
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 5px yellow;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+
+    transition: 1s;
+}
+.em-andamento:hover {
+    transform: scale(1.1);
+}
+.em-andamento > h2 {
+    color: yellow;
+    text-decoration: underline;
+}
+#java-script {
+    width: 100%;
+    color: rgb(247, 223, 30);
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 5px rgb(247, 223, 30);
+
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+}
 .em-breve {
     width: 10%;
     background-color: rgb(27, 27, 27);
@@ -103,16 +133,6 @@ body > h2 {
 .em-breve > h2 {
     color: red;
     text-decoration: underline;
-}
-#java-script {
-    width: 100%;
-    color: rgb(247, 223, 30);
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px 5px rgb(247, 223, 30);
-
-    display: flex;
-    justify-content: center;
-    padding: 5px;
 }
 #php {
     width: 100%;
@@ -189,45 +209,49 @@ footer {
     padding: 15px;
 }
 @media screen and (max-width: 1024px) {
-  .group-cards {
-    gap: 40px;
-    padding: 20px;
-  }
+    .ativa, .em-andamento, .em-breve {
+        width: 20%;
+    }
+    .group-cards {
+        gap: 40px;
+        padding: 20px;
+    }
 }
 @media screen and (max-width: 768px) {
-  header {
-    padding: 15px 10px;
-  }
-  h1 {
-    font-size: 32px;
-    text-align: center;
-    padding: 10px;
-  }
-  .linguagens {
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  .ativa, .em-breve {
-    width: 25%;
-  }
-  .group-cards {
-    gap: 30px;
-    padding: 15px;
-  }
-  .card {
-    width: 100%;
-    max-width: 280px;
-    padding: 15px;
-  }
-  .card > img {
-    width: 100%;
-    height: auto;
-  }
-  details {
-    width: 100%;
-    font-size: 14px;
-  }
-  ul {
-    padding-left: 15px;
-  }
+    header {
+        padding: 15px 10px;
+    }
+    h1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 10px;
+    }
+    .linguagens {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    .ativa, .em-andamento, .em-breve {
+        width: 65%;
+    }
+    .group-cards {
+        gap: 30px;
+        padding: 15px;
+    }
+    .card {
+        width: 100%;
+        max-width: 280px;
+        padding: 15px;
+    }
+    .card > img {
+        width: 100%;
+        height: auto;
+    }
+    details {
+        width: 100%;
+        font-size: 14px;
+    }
+    ul {
+        padding-left: 15px;
+    }
 }
