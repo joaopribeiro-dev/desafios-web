@@ -29,3 +29,27 @@ button {
     cursor: pointer;
     padding: 5px 15px;
 }
+.historico {
+    width: 465px;
+    background-color: rgb(46, 46, 46);
+    color: white;
+    border: 1px solid white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 15px;
+}
+.lista {
+    list-style-type: none;
+    width: 80%;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 5px 10px;
+    gap: 5px;
+}
