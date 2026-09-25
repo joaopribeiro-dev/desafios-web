@@ -12,6 +12,7 @@ body {
     gap: 15px;
 }
 .calculator {
+    width: 450px;
     background-color: rgb(46, 46, 46);
     color: white;
     border: 1px solid white;
@@ -22,15 +23,57 @@ body {
     align-items: center;
 
     padding: 15px;
-    gap: 15px;
+    gap: 30px;
+}
+.display {
+    width: 80%;
+    background-color: black;
+    border: 1px solid white;
+    text-align: center;
+    padding: 5px;
+}
+.calculos {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.numeros {
+    width: 40%;
+    height: 175px;
+    background-color: black;
+    border: 1px solid white;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    padding: 10px 0px;
+    gap: 10px;
+}
+.operadores {
+    width: 40%;
+    height: 175px;
+    background-color: black;
+    border: 1px solid white;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    padding: 10px 0px;
+    gap: 10px;
 }
 button {
-    border: 1px solid black;
+    width: 40px;
+    background-color: black;
+    color: white;
+    border: 1px solid white;
     cursor: pointer;
     padding: 5px 15px;
 }
 .historico {
-    width: 465px;
+    width: 450px;
     background-color: rgb(46, 46, 46);
     color: white;
     border: 1px solid white;
@@ -52,4 +95,26 @@ button {
 
     padding: 5px 10px;
     gap: 5px;
+}
+@media screen and (max-width: 768px) {
+    .calculator, .historico {
+        width: 80%;
+    }
+}
+@media screen and (max-width: 480px) {
+    .calculator, .historico {
+        width: 90%;
+    }
+    .calculos {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .numeros, .operadores {
+        width: 100%;
+        height: auto;
+    }
+    button {
+        width: 45px;
+        height: 45px;
+    }
 }
