@@ -7,6 +7,7 @@ const btnMultiplicacao = document.getElementById("multiplicacao");
 const btnDivisao = document.getElementById("divisao");
 const btnPonto = document.getElementById("ponto");
 const btnIgual = document.getElementById("igual");
+const btnDeletar = document.getElementById("deletar");
 const btnLimpar = document.getElementById("limpar");
 
 const lista = document.getElementById("lista");
@@ -83,6 +84,14 @@ function adicionarLista (expressao, res) {
     lista.style.backgroundColor = "Black";
     lista.style.border = "1px solid white";
 }
+
+btnDeletar.addEventListener('click', ()=> {
+    if (display.innerText.length === 1 || display.innerText === "Erro") {
+        display.innerText = "0";
+    } else {
+        display.innerText = display.innerText.slice(0, -1);
+    }
+})
 
 btnLimpar.addEventListener('click', ()=> {
     display.innerText = "0";
