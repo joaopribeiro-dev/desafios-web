@@ -1,7 +1,26 @@
+@keyframes movimento {
+    0% {
+        background-position: 0% 50%;
+    }
+    25% {
+        background-position: 50% 100%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    75% {
+        background-position: 50% 0%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 body {
     width: 100%;
     height: 100vh;
-    background-color: black;
+    background: linear-gradient(black, rgb(63, 63, 63), black);
+    background-size: 300% 300%;
+    animation: movimento 5s ease infinite;
     color: white;
 
     display: flex;
@@ -75,6 +94,9 @@ button {
     justify-content: center;
     align-items: center;
     padding: 5px 15px;
+}
+button:hover {
+    background: linear-gradient(black, white);
 }
 .historico {
     width: 450px;
