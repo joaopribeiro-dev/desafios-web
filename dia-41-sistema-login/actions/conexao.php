@@ -1,8 +1,8 @@
 <?php
-    $host = "localhost";
-    $dbName = "db_login";
-    $userName = "root";
-    $password = "";
+    $host = "sql111.infinityfree.com";
+    $dbName = "if0_43082683_db_login";
+    $userName = "if0_43082683";
+    $password = "Mega8080Mega";
 
     try {
         $conexao = new PDO("mysql:host=$host;dbname=$dbName;charset=utf8mb4", $userName, $password);
