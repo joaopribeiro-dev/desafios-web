@@ -1,2 +1,2 @@
-# desafios-web
-Repositório dedicado a práticas de lógicas: HTML e CSS. Em breve JavaScript e PHP
+# pratica-web
+Repositório dedicado a práticas de lógicas: HTML, CSS, JS e PHP. Em breve SQL
