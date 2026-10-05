@@ -12,10 +12,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Usuário</title>
+    <link rel="stylesheet" href="./styles/reset.css">
+    <link rel="stylesheet" href="./styles/painel.css">
 </head>
 <body>
-    <h1>Bem-vindo <?php echo htmlspecialchars($_SESSION["usuario_nome"])?>!</h1>
-    <p>Você está logado e acessou a área restrita do sistema.</p>
-    <a href="./actions/logout.php">Sair</a>
+    <div class="welcome">
+        <h1>Bem-vindo <?php echo htmlspecialchars($_SESSION["usuario_nome"])?>!</h1>
+        <p>Você está logado e acessou a área restrita do sistema.</p>
+        <a href="./actions/logout.php">Sair</a>
+    </div>
 </body>
 </html>
