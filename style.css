@@ -1,257 +1,59 @@
-@keyframes blackwhite {
-    0% {
-        box-shadow: 0px 0px 5px 5px white;
-    }
-    33% {
-        box-shadow: 0px 0px 5px 5px black;
-    }
-    66% {
-        box-shadow: 0px 0px 5px 5px white;
-    }
-    100% {
-        box-shadow: 0px 0px 5px 5px black;
-    }
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: none;
+    text-decoration: none;
 }
 body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
     background-color: black;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+.central {
+    position: relative;
+    z-index: 1000;
+    background-color: rgba(85, 85, 85, 0.5);
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 0px 3px 3px white;
     color: white;
-}
-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-}
-nav {
-    display: flex;
-    gap: 50px;
-}
-h1 {
-    font-size: 48px;
-    font-weight: 700;
     border-radius: 10px;
-    animation: blackwhite 3s ease-in-out infinite alternate;
-}
-body > h2 {
-    text-decoration: underline;
+
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-.linguagens {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+
     padding: 15px;
-}
-.ativa {
-    width: 25%;
-    background-color: rgb(27, 27, 27);
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px 5px yellowgreen;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-
-    transition: 1s;
-}
-.ativa:hover {
-    transform: scale(1.1);
-}
-.ativa > h2 {
-    color: yellowgreen;
-    text-decoration: underline;
-}
-#html {
-    width: 100%;
-    color: rgb(227, 79, 38);
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px 5px rgb(227, 79, 38);
-
-    display: flex;
-    justify-content: center;
-    padding: 5px;
-}
-#css {
-    width: 100%;
-    color: rgb(21, 114, 182);
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px 5px rgb(21, 114, 182);
-
-    display: flex;
-    justify-content: center;
-    padding: 5px;
-}
-.em-andamento {
-    width: 25%;
-    background-color: rgb(27, 27, 27);
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px 5px yellow;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-
-    transition: 1s;
-}
-.em-andamento:hover {
-    transform: scale(1.1);
-}
-.em-andamento > h2 {
-    color: yellow;
-    text-decoration: underline;
-}
-#java-script {
-    width: 100%;
-    color: rgb(247, 223, 30);
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px 5px rgb(247, 223, 30);
-
-    display: flex;
-    justify-content: center;
-    padding: 5px;
-}
-#php {
-    width: 100%;
-    color: rgb(119, 123, 180);
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px 5px rgb(119, 123, 180);
-
-    display: flex;
-    justify-content: center;
-    padding: 5px;
-}
-.em-breve {
-    width: 25%;
-    background-color: rgb(27, 27, 27);
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px 5px red;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-
-    transition: 1s;
-}
-.em-breve:hover {
-    transform: scale(1.1);
-}
-.em-breve > h2 {
-    color: red;
-    text-decoration: underline;
-}
-#sql {
-    width: 100%;
-    color: rgb(0, 128, 0);
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px 5px rgb(0, 128, 0);
-
-    display: flex;
-    justify-content: center;
-    padding: 5px;
-}
-hr {
-    margin: 10px;
-    color: white;
-}
-ul {
-    display: flex;
-    flex-direction: column;
     gap: 10px;
 }
-a {
-    color: white;
-}
-a:hover {
-    color: yellow;
-}
-summary:hover {
-    cursor: pointer;
-    color: red;
-}
-.group-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 30px;
-    gap: 100px;
-}
-.card {
-    width: 250px;
-    box-shadow: 0px 0px 5px 5px white;
-    border-radius: 10px;
-
-    text-align: center;
+form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    
-    padding: 25px;
+    justify-content: center;
     gap: 15px;
 }
-.card:hover {
-    animation: blackwhite 3s ease-in-out infinite alternate;
-}
-.card > img {
-    width: 250px;
-    height: 250px;
+input {
+    background-color: black;
+    color: white;
     border: 1px solid white;
     border-radius: 10px;
+    padding: 5px;
 }
-footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
-}
-@media screen and (max-width: 1024px) {
-    .ativa, .em-andamento, .em-breve {
-        width: 20%;
-    }
-    .group-cards {
-        gap: 40px;
-        padding: 20px;
-    }
-}
-@media screen and (max-width: 768px) {
-    header {
-        padding: 15px 10px;
-    }
-    h1 {
-        font-size: 32px;
-        text-align: center;
-        padding: 10px;
-    }
-    .linguagens {
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-    }
-    .ativa, .em-andamento, .em-breve {
-        width: 65%;
-    }
-    .group-cards {
-        gap: 30px;
-        padding: 15px;
-    }
-    .card {
-        width: 100%;
-        max-width: 280px;
-        padding: 15px;
-    }
-    .card > img {
-        width: 100%;
-        height: auto;
-    }
-    details {
-        width: 100%;
-        font-size: 14px;
-    }
-    ul {
-        padding-left: 15px;
-    }
+button {
+    cursor: pointer;
+    background: linear-gradient(-45deg, black, white, black);
+    border-radius: 10px;
+    padding: 4px 7px;
 }
