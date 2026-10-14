@@ -11,7 +11,7 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener('resize', ()=> {
     resizeCanvas();
-    createNebulas();
+    createNebula();
 
     stars.forEach(star => {
         if (star.x > canvas.width) star.x = Math.random() * canvas.width;
