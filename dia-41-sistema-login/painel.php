@@ -20,6 +20,7 @@
         <h1>Bem-vindo <?php echo htmlspecialchars($_SESSION["usuario_nome"])?>!</h1>
         <p>Você está logado e acessou a área restrita do sistema.</p>
         <a href="./actions/logout.php">Sair</a>
+        <a href="./actions/delete.php" onclick="return confirm('Tem certeza que deseja excluir sua conta?')" style="color: red;">Excluir minha conta</a>
     </div>
 </body>
 </html>
