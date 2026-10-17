@@ -7,154 +7,194 @@ const errorMessage = document.getElementById("errorMessage");
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    const focalLength = window.innerWidth * 0.8;
 }
 resizeCanvas();
-window.addEventListener('resize', ()=> {
-    resizeCanvas();
-    createNebula();
-
-    stars.forEach(star => {
-        if (star.x > canvas.width) star.x = Math.random() * canvas.width;
-        if (star.y > canvas.height) star.y = Math.random() * canvas.height;
-    });
-});
 
 let stars = [];
 let nebulas = [];
-let speed = 0.5;
+let speed = 2;
 let fadeOpacity = 0;
 let time = 0;
 
-for (let i = 0; i < 150; i++) {
-    stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
+const numStars = 500;
+const focalLength = window.innerWidth * 0.8;
+
+function createStars() {
+    return {
+        x: (Math.random() - 0.5) * canvas.width * 2,
+        y: (Math.random() - 0.5) * canvas.height * 2,
+        z: Math.random() * canvas.width + 10,
+        prevZ: 0,
         radius: Math.random() * 1.5,
         alpha: Math.random()
-    });
+    };
 }
+
+for (let i = 0; i < numStars; i++) {
+    let s = createStars();
+    s.prevZ = s.z;
+    stars.push(s);
+}
+
+window.addEventListener('resize', ()=> {
+    resizeCanvas();
+    if (typeof createNebula === "function") createNebula();
+
+    stars.forEach(star => {
+        star.x = (Math.random() - 0.5) * canvas.width * 2;
+        star.y = (Math.random() - 0.5) * canvas.height * 2;
+    });
+});
+
+let blackHoleZ = 1;
+let sunZ = 1;
+let isWarping = false;
 
 function cosmos() {
     time += 0.03;
 
-    const sunX = canvas.width * 0.25;
-    const sunY = canvas.height * 0.5;
-    const sunRadius = 80;
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
 
-    let sunGlow = ctx.createRadialGradient(sunX, sunY, sunRadius * 0.5, sunX, sunY, sunRadius * 2,);
-    sunGlow.addColorStop(0, "rgba(255, 200, 50, 1)");
-    sunGlow.addColorStop(0.5, "rgba(255, 100, 0, 0.4)");
-    sunGlow.addColorStop(1, "rgba(255, 50, 0, 0)");
+    if (isWarping) {
+        sunZ -= 0.015;
 
-    ctx.fillStyle = sunGlow;
-    ctx.beginPath();
-    ctx.arc(sunX, sunY, sunRadius * 2, 0, Math.PI * 2);
-    ctx.fill();
+        if (speed >= 150) {
+            blackHoleZ -= 0.015;
+        }
+    }
 
-    ctx.strokeStyle = "rgba(255, 180, 30, 0.7)";
-    ctx.lineWidth = 3;
-    for (let i = 0; i < 12; i++) {
-        let angle = (i / 12) * Math.PI * 2 + time * 0.1;
-        let pulse = Math.sin(time * 3 + i) * 15 + 10;
+    let baseBhX = 0;
+    let baseBhY = 0;
+    
+    let kBh = 1 / Math.max(0.01, blackHoleZ);
+    let blackHoleX = centerX + baseBhX * kBh;
+    let blackHoleY = centerY + baseBhY * kBh;
+    let blackHoleRadius = 100 * kBh;
 
-        let startX = sunX + Math.cos(angle) * sunRadius;
-        let startY = sunY + Math.sin(angle) * sunRadius;
-        let endX = sunX + Math.cos(angle) * (sunRadius + pulse);
-        let endY = sunY + Math.sin(angle) * (sunRadius + pulse);
+    if (speed >= 150 && blackHoleZ > 0.05) {
+        const orbitalTime = time % (Math.PI * 2);
 
+        ctx.save();
+        ctx.translate(blackHoleX, blackHoleY);
+        ctx.rotate(30 * Math.PI / -180);
+
+        const numLinhas = 200;
+        for (let i = 0; i < numLinhas; i++) {
+            let r = (blackHoleRadius - (50 * kBh)) + (i * 0.75 * kBh) + Math.sin(orbitalTime * 2 + i) * 1.5;
+
+            let orbitalSpeed = 1.2 / Math.max(1, r) / 40;
+
+            let startAngle = (orbitalTime * orbitalSpeed) + (i * 0.25);
+            let arcLength = 1.5 + Math.sin(orbitalTime + i) * 0.8;
+            let endAngle = startAngle + arcLength;
+
+            let alpha = (1 - (i / numLinhas)) * 0.45;
+            let color = i < 30 ? `rgba(255, 255, 255, ${alpha})`:
+                        i < 60 ? `rgba(255, 180, 20, ${alpha * 0.95})`:
+                        i < 90 ? `rgba(255, 120, 0, ${alpha * 0.75})`:
+                        i < 120 ? `rgba(255, 60, 0, ${alpha * 0.4})`:
+                        `rgba(150, 0, 100, ${alpha * 0.4})`;
+
+            ctx.strokeStyle = color;
+            ctx.lineWidth = Math.max(0.5, (1.8 + Math.sin(orbitalTime + i) * 0.4) * kBh);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, Math.max(0, r * 2.5), Math.max(0, r * 0.34), 0, Math.PI, Math.PI * 2);
+            ctx.stroke();
+        }
+
+        ctx.restore();
+
+        ctx.fillStyle = "#000000";
         ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        ctx.lineTo(endX, endY);
+        ctx.arc(blackHoleX, blackHoleY, Math.max(0, blackHoleRadius), 0, Math.PI * 2);
+        ctx.fill();
+
+        let glowGrad = ctx.createRadialGradient(blackHoleX, blackHoleY, Math.max(0, blackHoleRadius), blackHoleX, blackHoleY, Math.max(0, blackHoleRadius + 30 * kBh));
+        glowGrad.addColorStop(0, "rgba(0, 0, 0, 0.45)");
+        glowGrad.addColorStop(0.3, "rgb(255, 255, 255)");
+        glowGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
+        ctx.fillStyle = glowGrad;
+        ctx.beginPath();
+        ctx.arc(blackHoleX, blackHoleY, Math.max(0, blackHoleRadius + 30 * kBh), 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = "rgb(206, 206, 206)";
+        ctx.lineWidth = Math.max(1, (4 + Math.sin(orbitalTime * 5) * 0.4) * kBh);
+        ctx.beginPath();
+        ctx.arc(blackHoleX, blackHoleY, Math.max(0, blackHoleRadius + 1), 0, Math.PI * 2);
         ctx.stroke();
+
+        ctx.save();
+        ctx.translate(blackHoleX, blackHoleY);
+        ctx.rotate(30 * Math.PI / -180);
+
+        for (let i = 0; i < numLinhas; i++) {
+            let r = (blackHoleRadius - (50 * kBh)) + (i * 0.75 * kBh) + Math.sin(orbitalTime * 2 + i) * 1.5;
+            let orbitalSpeed = 1.2 / Math.max(1, r) / 40;
+
+            let startAngle = (orbitalTime * orbitalSpeed) + (i * 0.25);
+            let arcLength = 1.5 + Math.sin(orbitalTime + i) * 0.8;
+            let endAngle = startAngle + arcLength;
+
+            let alpha = (1 - (i / numLinhas)) * 0.45;
+            let color = i < 30 ? `rgba(255, 255, 255, ${alpha})`:
+                        i < 60 ? `rgba(255, 180, 20, ${alpha * 0.95})`:
+                        i < 90 ? `rgba(255, 120, 0, ${alpha * 0.75})`:
+                        i < 120 ? `rgba(255, 60, 0, ${alpha * 0.4})`:
+                        `rgba(150, 0, 100, ${alpha * 0.4})`;
+
+            ctx.strokeStyle = color;
+            ctx.lineWidth = Math.max(0.5, (1.8 + (Math.sin(orbitalTime + i) * 0.4)) * kBh);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, Math.max(0, r * 2.5), Math.max(0, r * 0.34), 0, 0, Math.PI);
+            ctx.stroke();
+        }
+        ctx.restore();
+    }
+
+    let baseSunX = 0;
+    let baseSunY = (canvas.height * 0.75) - centerY;
+
+    let sunK = 1 / Math.max(0.01, sunZ);
+    let sunX = centerX + baseSunX * sunK;
+    let sunY = centerY + baseSunY * sunK;
+    let sunRadius = 80 * sunK;
+
+    if (sunZ > 0.05) {
+        let sunGlow = ctx.createRadialGradient(sunX, sunY, Math.max(0, sunRadius * 0.5), sunX, sunY, Math.max(0, sunRadius * 2));
+        sunGlow.addColorStop(0, "rgba(255, 200, 50, 1)");
+        sunGlow.addColorStop(0.5, "rgba(255, 100, 0, 0.4)");
+        sunGlow.addColorStop(1, "rgba(255, 50, 0, 0)");
+    
+        ctx.fillStyle = sunGlow;
+        ctx.beginPath();
+        ctx.arc(sunX, sunY, Math.max(0, sunRadius * 2), 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = "rgba(255, 180, 30, 0.7)";
+        ctx.lineWidth = Math.max(1, 3 * sunK);
+        for (let i = 0; i < 12; i++) {
+            let angle = (i / 12) * Math.PI * 2 + time * 0.1;
+            let pulse = Math.sin(time * 3 + i) * 15 + 10;
+
+            let startX = sunX + Math.cos(angle) * sunRadius;
+            let startY = sunY + Math.sin(angle) * sunRadius;
+            let endX = sunX + Math.cos(angle) * (sunRadius + pulse);
+            let endY = sunY + Math.sin(angle) * (sunRadius + pulse);
+
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+        }
     }
 
     ctx.fillStyle = "#ffcc00";
     ctx.beginPath();
-    ctx.arc(sunX, sunY, sunRadius, 0, Math.PI * 2);
+    ctx.arc(sunX, sunY, Math.max(0, sunRadius), 0, Math.PI * 2);
     ctx.fill();
-
-    const blackHoleX = canvas.width * 0.75;
-    const blackHoleY = canvas.height * 0.5;
-    const blackHoleRadius = 100;
-
-    const orbitalTime = time % (Math.PI * 2);
-
-    ctx.save();
-    ctx.translate(blackHoleX, blackHoleY);
-    ctx.rotate(30 * Math.PI / -180);
-
-    const numLinhas = 200;
-    for (let i = 0; i < numLinhas; i++) {
-        let r = (blackHoleRadius - 50)+ (i * 0.75) + Math.sin(orbitalTime * 2 + i) * 1.5;
-
-        let orbitalSpeed = 1.2 / (r / 40);
-
-        let startAngle = (orbitalTime * orbitalSpeed) + (i * 0.25);
-        let arcLength = 1.5 + Math.sin(orbitalTime + i) * 0.8;
-        let endAngle = startAngle + arcLength;
-
-        let alpha = (1 - (i / numLinhas)) * 0.45;
-        let color = i < 30 ? `rgba(255, 255, 255, ${alpha})`:
-                    i < 60 ? `rgba(255, 180, 20, ${alpha * 0.95})`:
-                    i < 90 ? `rgba(255, 120, 0, ${alpha * 0.75})`:
-                    i < 120 ? `rgba(255, 60, 0, ${alpha * 0.4})`:
-                    `rgba(150, 0, 100, ${alpha * 0.4})`;
-        
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 1.8 + (Math.sin(orbitalTime + i) * 0.4);
-        ctx.beginPath();
-        ctx.ellipse(0, 0, r * 2.5, r * 0.34, 0, Math.PI, Math.PI * 2);
-        ctx.stroke();
-    }
-
-    ctx.restore();
-
-    ctx.fillStyle = "#000000";
-    ctx.beginPath();
-    ctx.arc(blackHoleX, blackHoleY, blackHoleRadius, 0, Math.PI * 2);
-    ctx.fill();
-    
-    let glowGrad = ctx.createRadialGradient(blackHoleX, blackHoleY, blackHoleRadius, blackHoleX, blackHoleY, blackHoleRadius + 30);
-    glowGrad.addColorStop(0, "rgba(0, 0, 0, 0.45)");
-    glowGrad.addColorStop(0.3, "rgb(255, 255, 255)");
-    glowGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
-    ctx.fillStyle = glowGrad;
-    ctx.beginPath();
-    ctx.arc(blackHoleX, blackHoleY, blackHoleRadius + 30, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.strokeStyle = "rgb(206, 206, 206)";
-    ctx.lineWidth = 4 + Math.sin(orbitalTime * 5) * 0.4;
-    ctx.beginPath();
-    ctx.arc(blackHoleX, blackHoleY, blackHoleRadius + 1, 0, Math.PI * 2);
-    ctx.stroke();
-
-    ctx.save();
-    ctx.translate(blackHoleX, blackHoleY);
-    ctx.rotate(30 * Math.PI / -180);
-
-    for (let i = 0; i < numLinhas; i++) {
-        let r = (blackHoleRadius - 50)+ (i * 0.75) + Math.sin(orbitalTime * 2 + i) * 1.5;
-        let orbitalSpeed = 1.2 / (r / 40);
-
-        let startAngle = (orbitalTime * orbitalSpeed) + (i * 0.25);
-        let arcLength = 1.5 + Math.sin(orbitalTime + i) * 0.8;
-        let endAngle = startAngle + arcLength;
-
-        let alpha = (1 - (i / numLinhas)) * 0.45;
-        let color = i < 30 ? `rgba(255, 255, 255, ${alpha})`:
-                    i < 60 ? `rgba(255, 180, 20, ${alpha * 0.95})`:
-                    i < 90 ? `rgba(255, 120, 0, ${alpha * 0.75})`:
-                    i < 120 ? `rgba(255, 60, 0, ${alpha * 0.4})`:
-                    `rgba(150, 0, 100, ${alpha * 0.4})`;
-        
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 1.8 + (Math.sin(orbitalTime + i) * 0.4);
-        ctx.beginPath();
-        ctx.ellipse(0, 0, r * 2.5, r * 0.34, 0, 0, Math.PI);
-        ctx.stroke();
-    }
-    ctx.restore();
 }
 
 function animate() {
@@ -191,25 +231,46 @@ function animate() {
     ctx.fillStyle = "#ffffff";
     ctx.strokeStyle = "#ffffff";
 
-    stars.forEach(star => {
-        star.x += speed;
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
 
-        if (star.x > canvas.width) {
-            star.x = 0;
-            star.y = Math.random() * canvas.height;
+    stars.forEach(star => {
+        star.prevZ = star.z;
+        star.z -= speed;
+
+        if (star.z <= 0) {
+            star.z = canvas.width;
+            star.x = (Math.random() - 0.5) * canvas.width * 2;
+            star.y = (Math.random() - 0.5) * canvas.height * 2;
+            star.prevZ = star.z;
+        }
+
+        let k = focalLength / star.z;
+        let px = centerX + star.x * k;
+        let py = centerY + star.y * k;
+
+        let prevK = focalLength / star.prevZ;
+        let prevPx = centerX + star.x * prevK;
+        let prevPy = centerY + star.y * prevK;
+
+        if (px < 0 || px > canvas.width || py < 0 || py > canvas.height) {
+            return;
         }
 
         ctx.globalAlpha = star.alpha;
 
         if (speed >= 30) {
-            ctx.lineWidth = star.radius;
+            let multiplier = (speed / 30) * 2;
+
+            ctx.lineWidth = star.radius * (1 - star.z / canvas.width) * multiplier;
             ctx.beginPath();
-            ctx.moveTo(star.x, star.y);
-            ctx.lineTo(star.x - (speed * 0.4), star.y);
+            ctx.moveTo(prevPx, prevPy);
+            ctx.lineTo(px, py);
             ctx.stroke();
         } else {
+            let currentRadius = Math.max(0.2, (1 - star.z / canvas.width) * star.radius * 2.5);
             ctx.beginPath();
-            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.arc(px, py, currentRadius, 0, Math.PI * 2);
             ctx.fill();
         }
     });
@@ -262,14 +323,16 @@ form.addEventListener('submit', (event)=> {
         document.querySelector(".central").style.transition = "opacity 0.5s";
         document.querySelector(".central").style.opacity = "0";
 
+        isWarping = true;
+
         const velocidade = setInterval(() => {
             speed += 2;
 
-            if (speed >= 70) {
-                fadeOpacity = (speed - 70) / 30;
+            if (speed >= 170) {
+                fadeOpacity = (speed - 170) / 30;
             }
 
-            if (speed >= 100) {
+            if (speed >= 210) {
                 fadeOpacity = 1;
                 clearInterval(velocidade);
 
