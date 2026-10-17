@@ -48,6 +48,7 @@ window.addEventListener('resize', ()=> {
 });
 
 let blackHoleZ = 1;
+let mercuryZ = 1;
 let sunZ = 1;
 let isWarping = false;
 
@@ -60,6 +61,9 @@ function cosmos() {
     if (isWarping) {
         sunZ -= 0.015;
 
+        if (speed >= 50) {
+            mercuryZ -= 0.015;
+        }
         if (speed >= 150) {
             blackHoleZ -= 0.015;
         }
@@ -154,6 +158,48 @@ function cosmos() {
         ctx.restore();
     }
 
+    let baseMercuryX = (canvas.width * 0.4) - centerX;
+    let baseMercuryY = (canvas.height * 0.6) - centerY;
+
+    let mercuryK = 1 / Math.max(0.01, mercuryZ);
+    let mercuryX = centerX + baseMercuryX * mercuryK;
+    let mercuryY = centerY + baseMercuryY * mercuryK;
+    let mercuryRadius = 15 * mercuryK;
+
+    if (speed >= 50 && mercuryZ > 0.05) {
+        let mercuryGlow = ctx.createRadialGradient(mercuryX - mercuryRadius * 0.3, mercuryY - mercuryRadius * 0.3, 0, mercuryX, mercuryY, mercuryRadius);
+        mercuryGlow.addColorStop(0, "#B5B0A8");
+        mercuryGlow.addColorStop(0.5, "#8C8985");
+        mercuryGlow.addColorStop(1, "#555451");
+    
+        ctx.fillStyle = mercuryGlow;
+        ctx.strokeStyle = "#555451";
+        ctx.lineWidth = Math.max(0.5, mercuryRadius * 0.08);
+
+        ctx.beginPath();
+        ctx.arc(mercuryX, mercuryY, Math.max(0, mercuryRadius), 0, Math.PI * 2)
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(mercuryX, mercuryY, mercuryRadius, 0, Math.PI * 2);
+        ctx.clip();
+
+        craterasMercury.forEach(cratera => {
+            let crateraX = mercuryX + cratera.x * mercuryRadius;
+            let crateraY = mercuryY + cratera.y * mercuryRadius;
+            let crateraRadius = cratera.radius * mercuryRadius;
+
+            ctx.fillStyle = `rgba(50, 49, 47, ${cratera.alpha})`;
+            ctx.beginPath();
+            ctx.arc(crateraX, crateraY, crateraRadius, 0, Math.PI * 2);
+            ctx.fill();
+        });
+
+        ctx.restore();
+    }
+
     let baseSunX = 0;
     let baseSunY = (canvas.height * 0.75) - centerY;
 
@@ -196,6 +242,21 @@ function cosmos() {
     ctx.arc(sunX, sunY, Math.max(0, sunRadius), 0, Math.PI * 2);
     ctx.fill();
 }
+
+function createCraterasMercury() {
+    let crateras = [];
+
+    for (let i = 0; i < 25; i++) {
+        crateras.push({
+            x: Math.random() * 2 - 1,
+            y: Math.random() * 2 - 1,
+            radius: Math.random() * 0.08 + 0.02,
+            alpha: Math.random() * 0.2 + 0.1
+        });
+    }
+    return crateras;
+}
+const craterasMercury = createCraterasMercury();
 
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
