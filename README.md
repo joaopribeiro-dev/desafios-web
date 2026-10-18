@@ -17,10 +17,11 @@
 O projeto principal deste repositório conta com uma **tela de acesso imersiva** construída do zero utilizando **HTML5 Canvas API**, simulação matemática de corpos celestes e transição dinâmica de páginas.
 
 ### 🌟 Funcionalidades & Efeitos Visuais:
-- **Efeito Warp Speed**: Aceleração dinâmica das estrelas com rastros e *fade-out* gradual ao autenticar o comando.
-- **Corpos Celestes em 3D**:
+- **Efeito Warp Speed & Câmera 3D**: Aceleração dinâmica das estrelas e avanço de perspectiva nos eixos X, Y e Z (profundidade) com *fade-out* ao autenticar.
+- **Sistema Planetário Interativo (3D)**:
   - **Sol**: Renderizado com erupções solares (*flares*) e pulso dinâmico via trigonometria (`Math.sin` / `Math.cos`).
-  - **Buraco Negro**: Simulação de disco de acreção inclinado em $30^\circ$, composto por 200 órbitas de plasma com efeito de lente gravitacional em 3D (divisão de arcos frontal e traseiro).
+  - **Buraco Negro (Phoenix A)**: Simulação de disco de acreção inclinado em $30^\circ$, composto por 200 órbitas de plasma com efeito de lente gravitacional em 3D (divisão de arcos frontal e traseiro).
+  - **Planetas Intermediários**: Sistema planetário alinhado no horizonte cósmico.
 - **Nebulosas Dinâmicas**: Nuvens cósmicas geradas por gradientes radiais em movimento contínuo.
 - **Scroll Reveal**: Animação em cascata (*IntersectionObserver*) para exibição fluida dos cards no `home.html`.
 
@@ -36,8 +37,8 @@ O projeto principal deste repositório conta com uma **tela de acesso imersiva**
   <img src="https://img.shields.io/badge/mysql-%2300000f.svg?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
 </p>
 
-- **HTML5**: Estruturação semântica da aplicação e elemento Canvas para gráficos 2D.
+- **HTML5**: Estruturação semântica da aplicação e elemento Canvas para gráficos 2D/3D.
 - **CSS3**: Estilização moderna, variáveis, efeitos glassmorphism e animações.
-- **JavaScript (ES6+)**: Manipulação de Canvas API, trigonometria para efeitos espaciais e API `IntersectionObserver`.
-- **PHP**: Integração backend e manipulação de fluxos nos desafios web.
-- **MySQL / SQL** *(em breve)*: Modelagem e persistência de dados.
+- **JavaScript (ES6+)**: Manipulação de Canvas API, trigonometria para efeitos espaciais, projeção $Z$ e API `IntersectionObserver`.
+- **PHP**: Backend seguro utilizando PDO, Prepared Statements e controle de sessões.
+- **MySQL / SQL**: Modelagem e persistência de dados no banco de dados.
