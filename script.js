@@ -48,6 +48,7 @@ window.addEventListener('resize', ()=> {
 });
 
 let blackHoleZ = 1;
+let venusZ = 1;
 let mercuryZ = 1;
 let sunZ = 1;
 let isWarping = false;
@@ -64,7 +65,10 @@ function cosmos() {
         if (speed >= 50) {
             mercuryZ -= 0.015;
         }
-        if (speed >= 150) {
+        if (speed >= 100) {
+            venusZ -= 0.015;
+        }
+        if (speed >= 200) {
             blackHoleZ -= 0.015;
         }
     }
@@ -77,7 +81,7 @@ function cosmos() {
     let blackHoleY = centerY + baseBhY * kBh;
     let blackHoleRadius = 100 * kBh;
 
-    if (speed >= 150 && blackHoleZ > 0.05) {
+    if (speed >= 200 && blackHoleZ > 0.05) {
         const orbitalTime = time % (Math.PI * 2);
 
         ctx.save();
@@ -155,6 +159,59 @@ function cosmos() {
             ctx.ellipse(0, 0, Math.max(0, r * 2.5), Math.max(0, r * 0.34), 0, 0, Math.PI);
             ctx.stroke();
         }
+        ctx.restore();
+    }
+    
+    let baseVenusX = (canvas.width * 0.55) - centerX;
+    let baseVenusY = (canvas.height * 0.4) - centerY;
+
+    let venusK = 1 / Math.max(0.01, venusZ);
+    let venusX = centerX + baseVenusX * venusK;
+    let venusY = centerY + baseVenusY * venusK;
+    let venusRadius = 20 * venusK;
+
+    if (speed >= 100 && venusZ > 0.05) {
+        let venusGlow = ctx.createRadialGradient(venusX - venusRadius * 0.3, venusY - venusRadius * 0.3, 0, venusX, venusY, venusRadius);
+        venusGlow.addColorStop(0, "#FFF1B8");
+        venusGlow.addColorStop(0.5, "#E8C477");
+        venusGlow.addColorStop(1, "#B8793E");
+
+        ctx.fillStyle = venusGlow;
+        ctx.strokeStyle = "#B8793E";
+        ctx.lineWidth = Math.max(0.5, venusRadius * 0.05);
+
+        ctx.beginPath();
+        ctx.arc(venusX, venusY, venusRadius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(venusX, venusY, venusRadius, 0, Math.PI * 2);
+        ctx.clip();
+
+        cloudsVenus.forEach(cloud => {
+            let cloudX = venusX + cloud.x * venusRadius;
+            let cloudY = venusY + cloud.y * venusRadius;
+            let cloudWidth = cloud.width * venusRadius;
+            let cloudHeight = cloud.height * venusRadius;
+
+            ctx.save();
+            ctx.translate(cloudX, cloudY);
+            ctx.rotate(cloud.rotation);
+
+            ctx.beginPath();
+            ctx.moveTo(-cloudWidth, 0);
+            ctx.bezierCurveTo(-cloudWidth * 0.5, cloudHeight, cloudWidth * 0.5, cloudHeight, cloudWidth, 0);
+
+            ctx.strokeStyle = `rgba(255, 241, 184, ${cloud.alpha})`;
+            ctx.lineWidth = Math.max(1, venusRadius * 0.08);
+            ctx.lineCap = "round";
+            ctx.stroke();
+
+            ctx.restore();
+        });
+
         ctx.restore();
     }
 
@@ -242,6 +299,23 @@ function cosmos() {
     ctx.arc(sunX, sunY, Math.max(0, sunRadius), 0, Math.PI * 2);
     ctx.fill();
 }
+
+function createCloudsVenus() {
+    let clouds = [];
+
+    for (let i = 0; i < 25; i++) {
+        clouds.push({
+            x: Math.random() * 1.2 - 0.6,
+            y: Math.random() * 1.4 - 0.7,
+            width: Math.random() * 0.5 + 0.3,
+            height: Math.random() * 0.25 + 0.1,
+            alpha: Math.random() * 0.2 + 0.1,
+            rotation: Math.random() * Math.PI
+        });
+    }
+    return clouds;
+}
+const cloudsVenus = createCloudsVenus();
 
 function createCraterasMercury() {
     let crateras = [];
@@ -389,11 +463,11 @@ form.addEventListener('submit', (event)=> {
         const velocidade = setInterval(() => {
             speed += 2;
 
-            if (speed >= 170) {
-                fadeOpacity = (speed - 170) / 30;
+            if (speed >= 220) {
+                fadeOpacity = (speed - 220) / 30;
             }
 
-            if (speed >= 210) {
+            if (speed >= 270) {
                 fadeOpacity = 1;
                 clearInterval(velocidade);
 
