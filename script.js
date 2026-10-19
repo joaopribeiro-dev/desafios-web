@@ -2,6 +2,7 @@ const canvas = document.getElementById("spaceCanvas");
 const ctx = canvas.getContext('2d');
 const form = document.getElementById("acessForm");
 const input = document.getElementById("commandInput");
+const skipBtn = document.getElementById("skipAnimation");
 const errorMessage = document.getElementById("errorMessage");
 
 function resizeCanvas() {
@@ -484,3 +485,6 @@ form.addEventListener('submit', (event)=> {
         }, 1000);
     }
 });
+skipBtn.addEventListener('click', ()=> {
+    window.location.href = "home.html";
+})
