@@ -49,6 +49,7 @@ window.addEventListener('resize', ()=> {
 });
 
 let blackHoleZ = 1;
+let terraZ = 1;
 let venusZ = 1;
 let mercuryZ = 1;
 let sunZ = 1;
@@ -69,7 +70,10 @@ function cosmos() {
         if (speed >= 100) {
             venusZ -= 0.015;
         }
-        if (speed >= 200) {
+        if (speed >= 150) {
+            terraZ -= 0.015;
+        }
+        if (speed >= 250) {
             blackHoleZ -= 0.015;
         }
     }
@@ -82,7 +86,7 @@ function cosmos() {
     let blackHoleY = centerY + baseBhY * kBh;
     let blackHoleRadius = 100 * kBh;
 
-    if (speed >= 200 && blackHoleZ > 0.05) {
+    if (speed >= 250 && blackHoleZ > 0.05) {
         const orbitalTime = time % (Math.PI * 2);
 
         ctx.save();
@@ -160,6 +164,87 @@ function cosmos() {
             ctx.ellipse(0, 0, Math.max(0, r * 2.5), Math.max(0, r * 0.34), 0, 0, Math.PI);
             ctx.stroke();
         }
+        ctx.restore();
+    }
+
+    let baseTerraX = (canvas.width * 0.4) - centerX;
+    let baseTerraY = (canvas.height * 0.4) - centerY;
+
+    let terraK = 1 / Math.max(0.01, terraZ);
+    let terraX = centerX + baseTerraX * terraK;
+    let terraY = centerY + baseTerraY * terraK;
+    let terraRadius = 25 * terraK;
+
+    if (speed >= 150 && terraZ > 0.05) {
+        let terraGlow = ctx.createRadialGradient(terraX - terraRadius * 0.3, terraY - terraRadius * 0.3, 0, terraX, terraY, terraRadius);
+        terraGlow.addColorStop(0, "#061B49");
+        terraGlow.addColorStop(0.5, "#1479D1");
+        terraGlow.addColorStop(1, "#36B8F2");
+
+        ctx.fillStyle = terraGlow;
+        ctx.strokeStyle = "#1479D1";
+        ctx.lineWidth = Math.max(0.5, terraRadius * 0.05);
+
+        ctx.beginPath();
+        ctx.arc(terraX, terraY, terraRadius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(terraX, terraY, terraRadius, 0, Math.PI * 2);
+        ctx.clip();
+
+        continentesTerra.forEach(continente => {
+            const continenteX = terraX + continente.x * terraRadius;
+            const continenteY = terraY + continente.y * terraRadius;
+            const continenteWidth = continente.width * terraRadius;
+            const continenteHeight = continente.height * terraRadius;
+
+            ctx.save();
+            ctx.translate(continenteX, continenteY);
+            ctx.rotate(continente.rotation);
+
+            ctx.beginPath();
+            ctx.moveTo(-continenteWidth * 0.5, 0);
+
+            ctx.bezierCurveTo(-continenteWidth * 0.4, -continenteHeight, continenteWidth * 0.2, -continenteHeight, continenteWidth * 0.5, -continenteHeight * 0.2)
+
+            ctx.bezierCurveTo(continenteWidth * 0.7, continenteHeight * 0.3, continenteWidth * 0.1, continenteHeight, -continenteWidth * 0.5, 0);
+
+            ctx.closePath();
+
+            ctx.fillStyle = `rgba(36, 116, 67, ${0.7 + continente.alpha})`;
+            ctx.fill();
+
+            ctx.restore();
+        })
+
+        cloudsTerra.forEach(cloud => {
+            let cloudX = terraX + cloud.x * terraRadius;
+            let cloudY = terraY + cloud.y * terraRadius;
+            let cloudWidth = cloud.x * terraRadius;
+            let cloudHeight = cloud.y * terraRadius;
+
+            ctx.save();
+            ctx.translate(cloudX, cloudY);
+            ctx.rotate(cloud.rotation);
+            
+            ctx.beginPath();
+            ctx.moveTo(-cloudWidth, 0);
+
+            ctx.bezierCurveTo(-cloudWidth * 0.5, -cloudHeight, cloudWidth * 0.5, -cloudHeight, cloudWidth, 0);
+
+            ctx.bezierCurveTo(cloudWidth * 0.5, cloudHeight * 0.5, -cloudWidth * 0.5, cloudHeight * 0.5, -cloudWidth, 0);
+
+            ctx.closePath();
+
+            ctx.fillStyle = `rgba(234, 246, 255, ${cloud.alpha + 0.2})`;
+            ctx.fill();
+
+            ctx.restore();
+        })
+
         ctx.restore();
     }
     
@@ -301,7 +386,24 @@ function cosmos() {
     ctx.fill();
 }
 
-function createCloudsVenus() {
+function createContinentesTerra() {
+    let continentes = [];
+
+    for (let i = 0; i < 7; i++) {
+        continentes.push({
+            x: Math.random() * 1.2 - 0.6,
+            y: Math.random() * 1.3 - 0.8,
+            width: Math.random() * 0.5 + 0.3,
+            height: Math.random() * 0.20 + 0.1,
+            alpha: Math.random() * 0.2 + 0.1,
+            rotation: Math.random() * Math.PI
+        });
+    }
+    return continentes;
+}
+const continentesTerra = createContinentesTerra();
+
+function createClouds() {
     let clouds = [];
 
     for (let i = 0; i < 25; i++) {
@@ -316,7 +418,8 @@ function createCloudsVenus() {
     }
     return clouds;
 }
-const cloudsVenus = createCloudsVenus();
+const cloudsVenus = createClouds();
+const cloudsTerra = createClouds();
 
 function createCraterasMercury() {
     let crateras = [];
@@ -464,11 +567,11 @@ form.addEventListener('submit', (event)=> {
         const velocidade = setInterval(() => {
             speed += 2;
 
-            if (speed >= 220) {
-                fadeOpacity = (speed - 220) / 30;
+            if (speed >= 270) {
+                fadeOpacity = (speed - 270) / 30;
             }
 
-            if (speed >= 270) {
+            if (speed >= 320) {
                 fadeOpacity = 1;
                 clearInterval(velocidade);
 
