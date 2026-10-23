@@ -18,13 +18,14 @@ O projeto principal deste repositório conta com uma **tela de acesso imersiva**
 
 ### 🌟 Funcionalidades & Efeitos Visuais:
 - **Efeito Warp Speed & Câmera 3D**: Aceleração dinâmica das estrelas e avanço de perspectiva nos eixos X, Y e Z (profundidade) com *fade-out* ao autenticar.
-- **Sistema Planetário Interativo (3D)**:
+- **Sistema Espacial (2D)**:
   - **Sol**: Renderizado com erupções solares (*flares*) e pulso dinâmico via trigonometria (`Math.sin` / `Math.cos`).
-  - **Buraco Negro (Phoenix A)**: Simulação de disco de acreção inclinado em $30^\circ$, composto por 200 órbitas de plasma com efeito de lente gravitacional em 3D (divisão de arcos frontal e traseiro).
   - **Planetas Intermediários**: Sistema planetário alinhado no horizonte cósmico.
+  - **Buraco Negro**: Simulação de disco de acreção inclinado em $30^\circ$, composto por 200 órbitas de plasma com efeito de lente gravitacional em 3D (divisão de arcos frontal e traseiro).
 - **Nebulosas Dinâmicas**: Nuvens cósmicas geradas por gradientes radiais em movimento contínuo.
 - **Scroll Reveal**: Animação em cascata (*IntersectionObserver*) para exibição fluida dos cards no `home.html`.
 
+- ***Em breve: animações em 3D para o Sol, os planetas e o buraco negro, além de novas interações.***
 ---
 
 ## 🛠️ Tecnologias Utilizadas no Repositório
