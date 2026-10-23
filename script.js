@@ -49,7 +49,8 @@ window.addEventListener('resize', ()=> {
 });
 
 let blackHoleZ = 1;
-let terraZ = 1;
+let moonZ = 1;
+let earthZ = 1;
 let venusZ = 1;
 let mercuryZ = 1;
 let sunZ = 1;
@@ -71,7 +72,8 @@ function cosmos() {
             venusZ -= 0.015;
         }
         if (speed >= 150) {
-            terraZ -= 0.015;
+            earthZ -= 0.015;
+            moonZ -= 0.015;
         }
         if (speed >= 250) {
             blackHoleZ -= 0.015;
@@ -167,39 +169,79 @@ function cosmos() {
         ctx.restore();
     }
 
-    let baseTerraX = (canvas.width * 0.4) - centerX;
-    let baseTerraY = (canvas.height * 0.4) - centerY;
+    let baseMoonX = (canvas.width * 0.37) - centerX;
+    let baseMoonY = (canvas.height * 0.34) - centerY;
 
-    let terraK = 1 / Math.max(0.01, terraZ);
-    let terraX = centerX + baseTerraX * terraK;
-    let terraY = centerY + baseTerraY * terraK;
-    let terraRadius = 25 * terraK;
+    let moonK = 1 / Math.max(0.01, moonZ);
+    let moonX = centerX + baseMoonX * moonK;
+    let moonY = centerY + baseMoonY * moonK;
+    let moonRadius = 15 * moonK;
 
-    if (speed >= 150 && terraZ > 0.05) {
-        let terraGlow = ctx.createRadialGradient(terraX - terraRadius * 0.3, terraY - terraRadius * 0.3, 0, terraX, terraY, terraRadius);
-        terraGlow.addColorStop(0, "#061B49");
-        terraGlow.addColorStop(0.5, "#1479D1");
-        terraGlow.addColorStop(1, "#36B8F2");
+    if (speed >= 150 && moonZ > 0.05) {
+        let moonGlow = ctx.createRadialGradient(moonX - moonRadius * 0.3, moonY - moonRadius * 0.3, 0, moonX, moonY, moonRadius);
+        moonGlow.addColorStop(0, "#D6D6D6");
+        moonGlow.addColorStop(0.5, "#a0a4ac");
+        moonGlow.addColorStop(1, "#5b5c5f");
 
-        ctx.fillStyle = terraGlow;
-        ctx.strokeStyle = "#1479D1";
-        ctx.lineWidth = Math.max(0.5, terraRadius * 0.05);
+        ctx.fillStyle = moonGlow;
+        ctx.lineWidth = Math.max(0.5, moonRadius * 0.08);
 
         ctx.beginPath();
-        ctx.arc(terraX, terraY, terraRadius, 0, Math.PI * 2);
+        ctx.arc(moonX, moonY, moonRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(moonX, moonY, moonRadius, 0, Math.PI * 2);
+        ctx.clip();
+
+        craterasMoon.forEach(cratera => {
+            let crateraX = moonX + cratera.x * moonRadius;
+            let crateraY = moonY + cratera.y * moonRadius;
+            let crateraRadius = cratera.radius * moonRadius;
+
+            ctx.fillStyle = `rgba(50, 49, 47, ${cratera.alpha})`;
+            ctx.beginPath();
+            ctx.arc(crateraX, crateraY, crateraRadius, 0, Math.PI * 2);
+            ctx.fill();
+        });
+
+        ctx.restore();
+    }
+
+    let baseEarthX = (canvas.width * 0.4) - centerX;
+    let baseEarthY = (canvas.height * 0.4) - centerY;
+
+    let earthK = 1 / Math.max(0.01, earthZ);
+    let earthX = centerX + baseEarthX * earthK;
+    let earthY = centerY + baseEarthY * earthK;
+    let earthRadius = 25 * earthK;
+
+    if (speed >= 150 && earthZ > 0.05) {
+        let earthGlow = ctx.createRadialGradient(earthX - earthRadius * 0.3, earthY - earthRadius * 0.3, 0, earthX, earthY, earthRadius);
+        earthGlow.addColorStop(0, "#061B49");
+        earthGlow.addColorStop(0.5, "#1479D1");
+        earthGlow.addColorStop(1, "#36B8F2");
+
+        ctx.fillStyle = earthGlow;
+        ctx.strokeStyle = "#1479D1";
+        ctx.lineWidth = Math.max(0.5, earthRadius * 0.05);
+
+        ctx.beginPath();
+        ctx.arc(earthX, earthY, earthRadius, 0, Math.PI * 2);
         ctx.fill();
         ctx.stroke();
         
         ctx.save();
         ctx.beginPath();
-        ctx.arc(terraX, terraY, terraRadius, 0, Math.PI * 2);
+        ctx.arc(earthX, earthY, earthRadius, 0, Math.PI * 2);
         ctx.clip();
 
-        continentesTerra.forEach(continente => {
-            const continenteX = terraX + continente.x * terraRadius;
-            const continenteY = terraY + continente.y * terraRadius;
-            const continenteWidth = continente.width * terraRadius;
-            const continenteHeight = continente.height * terraRadius;
+        continentesEarth.forEach(continente => {
+            const continenteX = earthX + continente.x * earthRadius;
+            const continenteY = earthY + continente.y * earthRadius;
+            const continenteWidth = continente.width * earthRadius;
+            const continenteHeight = continente.height * earthRadius;
 
             ctx.save();
             ctx.translate(continenteX, continenteY);
@@ -220,11 +262,11 @@ function cosmos() {
             ctx.restore();
         })
 
-        cloudsTerra.forEach(cloud => {
-            let cloudX = terraX + cloud.x * terraRadius;
-            let cloudY = terraY + cloud.y * terraRadius;
-            let cloudWidth = cloud.x * terraRadius;
-            let cloudHeight = cloud.y * terraRadius;
+        cloudsEarth.forEach(cloud => {
+            let cloudX = earthX + cloud.x * earthRadius;
+            let cloudY = earthY + cloud.y * earthRadius;
+            let cloudWidth = cloud.width * earthRadius;
+            let cloudHeight = cloud.height * earthRadius;
 
             ctx.save();
             ctx.translate(cloudX, cloudY);
@@ -386,7 +428,7 @@ function cosmos() {
     ctx.fill();
 }
 
-function createContinentesTerra() {
+function createContinentesEarth() {
     let continentes = [];
 
     for (let i = 0; i < 7; i++) {
@@ -401,7 +443,7 @@ function createContinentesTerra() {
     }
     return continentes;
 }
-const continentesTerra = createContinentesTerra();
+const continentesEarth = createContinentesEarth();
 
 function createClouds() {
     let clouds = [];
@@ -419,9 +461,9 @@ function createClouds() {
     return clouds;
 }
 const cloudsVenus = createClouds();
-const cloudsTerra = createClouds();
+const cloudsEarth = createClouds();
 
-function createCraterasMercury() {
+function createCrateras() {
     let crateras = [];
 
     for (let i = 0; i < 25; i++) {
@@ -434,7 +476,8 @@ function createCraterasMercury() {
     }
     return crateras;
 }
-const craterasMercury = createCraterasMercury();
+const craterasMercury = createCrateras();
+const craterasMoon = createCrateras();
 
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
