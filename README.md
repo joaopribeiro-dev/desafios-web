@@ -77,3 +77,15 @@ O repositório conta com um sistema automatizado de acompanhamento do progresso,
 - **Git**: utilização de *hooks* para executar tarefas automatizadas antes dos commits e incluir as atualizações de progresso no mesmo commit.
 - **PowerShell**: leitura da data local do Windows, identificação de datas ainda não registradas e atualização automatizada do contador.
 - **JSON**: armazenamento do número atual do dia e das datas já contabilizadas.
+
+---
+
+## 📈 Monitoramento de Acessos
+
+O portfólio utiliza o **Google Analytics 4 (GA4)** para acompanhar o tráfego e entender como os visitantes interagem com as páginas.
+
+- **Visualizações de página**: acompanhamento das páginas acessadas.
+- **Engajamento**: registro de interações, como rolagens e outros eventos compatíveis.
+- **Origem e localização aproximada**: análise das fontes de tráfego e das regiões dos visitantes, conforme a disponibilidade dos dados.
+
+O monitoramento ajuda a compreender o alcance do portfólio e identificar quais conteúdos despertam mais interesse.
