@@ -1,13 +1,15 @@
 (() => {
     const STORAGE_KEY = "portfolio-analytics-consent";
     const MEASUREMENT_ID = "G-RYXCZGT7N1";
+    const SCRIPT_ID = "portfolio-google-analytics";
 
     let temporaryChoice = null;
+    let analyticsLoaded = false;
 
     function getChoice() {
         try {
             return localStorage.getItem(STORAGE_KEY);
-        } catch (error) {
+        } catch {
             return temporaryChoice;
         }
     }
@@ -17,8 +19,8 @@
 
         try {
             localStorage.setItem(STORAGE_KEY, choice);
-        } catch (error) {
-            // A escolha vale durante esta página.
+        } catch {
+            // Mantém a escolha apenas durante esta página.
         }
     }
 
@@ -27,41 +29,42 @@
 
         try {
             localStorage.removeItem(STORAGE_KEY);
-        } catch (error) {
-            // A escolha poderá ser feita durante esta página.
+        } catch {
+            // A escolha será solicitada novamente.
         }
     }
 
     function deleteAnalyticsCookies() {
-        const cookies = document.cookie.split(";");
+        const hostname = window.location.hostname;
+        const domains = [""];
 
-        for (const cookie of cookies) {
-            const name = cookie.split("=")[0].trim();
+        // Tenta o domínio atual e os domínios-pai aplicáveis.
+        const parts = hostname.split(".");
 
-            if (name === "_ga" || name.startsWith("_ga_")) {
-                const hostname = window.location.hostname;
-                const parts = hostname.split(".");
-                const domains = [""];
+        for (let i = 0; i < parts.length - 1; i++) {
+            domains.push("." + parts.slice(i).join("."));
+        }
 
-                // Tenta remover cookies do domínio atual
-                // e de seus domínios-pai aplicáveis.
-                for (let i = 0; i < parts.length - 1; i++) {
-                    domains.push("." + parts.slice(i).join("."));
-                }
+        const names = document.cookie
+            .split(";")
+            .map(cookie => cookie.split("=")[0].trim())
+            .filter(name => name === "_ga" || name.startsWith("_ga_"));
 
-                for (const domain of domains) {
-                    document.cookie =
-                        name +
-                        "=; Max-Age=0; path=/" +
-                        (domain ? "; domain=" + domain : "") +
-                        "; SameSite=Lax";
-                }
+        for (const name of names) {
+            for (const domain of domains) {
+                document.cookie =
+                    `${name}=; Max-Age=0; path=/` +
+                    (domain ? `; domain=${domain}` : "") +
+                    "; SameSite=Lax";
             }
         }
     }
 
     function revokeConsent() {
-        // Bloqueia o armazenamento de Analytics imediatamente.
+        // Atualiza a escolha local antes de qualquer recarregamento.
+        storeChoice("rejected");
+
+        // Impede armazenamento de Analytics daqui em diante.
         if (typeof window.gtag === "function") {
             window.gtag("consent", "update", {
                 analytics_storage: "denied"
@@ -72,13 +75,12 @@
     }
 
     function loadAnalytics() {
-        // Se a biblioteca já foi carregada nesta página,
-        // apenas atualiza o consentimento.
-        if (
-            document.querySelector(
-                'script[data-analytics="portfolio"]'
-            )
-        ) {
+        if (getChoice() !== "accepted") {
+            return;
+        }
+
+        // Evita inicializar a biblioteca mais de uma vez.
+        if (document.getElementById(SCRIPT_ID)) {
             if (typeof window.gtag === "function") {
                 window.gtag("consent", "update", {
                     analytics_storage: "granted"
@@ -94,55 +96,29 @@
             window.dataLayer.push(arguments);
         };
 
-        // Define o consentimento antes de configurar o Analytics.
+        // Define o consentimento padrão antes da configuração.
         window.gtag("consent", "default", {
             analytics_storage: "denied"
+        });
+
+        // Como houve aceitação, atualiza o consentimento antes
+        // de configurar a medição e carregar a biblioteca.
+        window.gtag("consent", "update", {
+            analytics_storage: "granted"
         });
 
         window.gtag("js", new Date());
         window.gtag("config", MEASUREMENT_ID);
 
         const script = document.createElement("script");
-
+        script.id = SCRIPT_ID;
         script.async = true;
         script.src =
             "https://www.googletagmanager.com/gtag/js?id=" +
             MEASUREMENT_ID;
 
-        script.dataset.analytics = "portfolio";
-
         document.head.appendChild(script);
-
-        // A biblioteca só é carregada após a aceitação.
-        window.gtag("consent", "update", {
-            analytics_storage: "granted"
-        });
-    }
-
-    function saveChoice(choice) {
-        storeChoice(choice);
-
-        if (choice === "accepted") {
-            loadAnalytics();
-            renderInterface();
-            return;
-        }
-
-        if (choice === "rejected") {
-            // Se o Analytics já estiver ativo, aplica a recusa
-            // e recarrega para abrir uma página sem a biblioteca.
-            if (
-                document.querySelector(
-                    'script[data-analytics="portfolio"]'
-                )
-            ) {
-                revokeConsent();
-                window.location.reload();
-                return;
-            }
-        }
-
-        renderInterface();
+        analyticsLoaded = true;
     }
 
     function addStyles() {
@@ -258,7 +234,6 @@
         }
 
         const banner = document.createElement("section");
-
         banner.id = "analytics-consent";
         banner.setAttribute("role", "dialog");
         banner.setAttribute("aria-labelledby", "consent-title");
@@ -295,13 +270,35 @@
         document.body.appendChild(banner);
     }
 
+    function saveChoice(choice) {
+        if (choice === "accepted") {
+            storeChoice("accepted");
+            loadAnalytics();
+            renderInterface();
+            return;
+        }
+
+        if (choice === "rejected") {
+            revokeConsent();
+            deleteAnalyticsCookies();
+
+            // Se a biblioteca já foi inserida, recarrega a página
+            // para que ela não seja inicializada nesta nova visita.
+            if (document.getElementById(SCRIPT_ID)) {
+                window.location.reload();
+                return;
+            }
+
+            renderInterface();
+        }
+    }
+
     function showSettingsButton() {
         if (document.getElementById("privacy-settings")) {
             return;
         }
 
         const button = document.createElement("button");
-
         button.id = "privacy-settings";
         button.type = "button";
         button.textContent = "Privacidade / cookies";
@@ -310,17 +307,16 @@
             const previousChoice = getChoice();
 
             if (previousChoice === "accepted") {
-                // Revoga a autorização antes de abrir as opções.
                 revokeConsent();
+                deleteAnalyticsCookies();
                 removeChoice();
 
-                // Remove a biblioteca da sessão atual por meio
-                // de um recarregamento da página.
+                // O recarregamento evita carregar novamente a
+                // biblioteca, pois não haverá aceitação salva.
                 window.location.reload();
                 return;
             }
 
-            // Quem havia recusado pode rever a escolha sem recarregar.
             removeChoice();
             renderInterface();
         });
@@ -328,6 +324,7 @@
         document.body.appendChild(button);
     }
 
-    // Só carrega o Analytics se já houver consentimento salvo.
+    // Inicializa a interface e só carrega o Analytics
+    // quando existe uma aceitação salva.
     renderInterface();
 })();
