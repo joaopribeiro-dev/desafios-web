@@ -82,10 +82,11 @@ O repositório conta com um sistema automatizado de acompanhamento do progresso,
 
 ## 📈 Monitoramento de Acessos
 
-O portfólio utiliza o **Google Analytics 4 (GA4)** para acompanhar o tráfego e entender como os visitantes interagem com as páginas.
+O portfólio utiliza o **Google Analytics 4 (GA4)** para acompanhar o tráfego e entender como os visitantes interagem com as páginas. O uso da ferramenta depende do consentimento do visitante, que pode aceitar ou recusar a análise sem perder acesso ao site.
 
-- **Visualizações de página**: acompanhamento das páginas acessadas.
-- **Engajamento**: registro de interações, como rolagens e outros eventos compatíveis.
-- **Origem e localização aproximada**: análise das fontes de tráfego e das regiões dos visitantes, conforme a disponibilidade dos dados.
+- **Consentimento opcional**: o visitante pode aceitar ou recusar o uso do Google Analytics e continuar navegando normalmente, independentemente da escolha.
+- **Visualizações de página**: acompanhamento das páginas acessadas, quando autorizado.
+- **Engajamento**: registro de interações, como rolagens e outros eventos compatíveis, quando autorizado.
+- **Origem e localização aproximada**: análise das fontes de tráfego e das regiões dos visitantes, conforme a disponibilidade dos dados e o consentimento concedido.
 
-O monitoramento ajuda a compreender o alcance do portfólio e identificar quais conteúdos despertam mais interesse.
+O monitoramento ajuda a compreender o alcance do portfólio e identificar quais conteúdos despertam mais interesse, respeitando a escolha de cada visitante.
