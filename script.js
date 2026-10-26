@@ -5,10 +5,12 @@ const input = document.getElementById("commandInput");
 const skipBtn = document.getElementById("skipAnimation");
 const errorMessage = document.getElementById("errorMessage");
 
+let focalLength = window.innerWidth * 0.8;
+
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    const focalLength = window.innerWidth * 0.8;
+    focalLength = window.innerWidth * 0.8;
 }
 resizeCanvas();
 
@@ -19,7 +21,6 @@ let fadeOpacity = 0;
 let time = 0;
 
 const numStars = 500;
-const focalLength = window.innerWidth * 0.8;
 
 function createStars() {
     return {
@@ -49,6 +50,7 @@ window.addEventListener('resize', ()=> {
 });
 
 let blackHoleZ = 1;
+let marsZ = 1;
 let moonZ = 1;
 let earthZ = 1;
 let venusZ = 1;
@@ -75,7 +77,10 @@ function cosmos() {
             earthZ -= 0.015;
             moonZ -= 0.015;
         }
-        if (speed >= 250) {
+        if (speed >= 200) {
+            marsZ -= 0.015;
+        }
+        if (speed >= 300) {
             blackHoleZ -= 0.015;
         }
     }
@@ -88,7 +93,7 @@ function cosmos() {
     let blackHoleY = centerY + baseBhY * kBh;
     let blackHoleRadius = 100 * kBh;
 
-    if (speed >= 250 && blackHoleZ > 0.05) {
+    if (speed >= 300 && blackHoleZ > 0.05) {
         const orbitalTime = time % (Math.PI * 2);
 
         ctx.save();
@@ -169,6 +174,82 @@ function cosmos() {
         ctx.restore();
     }
 
+    let baseMarsX = (canvas.width * 0.64) - centerX;
+    let baseMarsY = (canvas.height * 0.55) - centerY;
+
+    let marsK = 1 / Math.max(0.01, marsZ);
+    let marsX = centerX + baseMarsX * marsK;
+    let marsY = centerY + baseMarsY * marsK;
+    let marsRadius = 23 * marsK;
+
+    if (speed >= 200 && marsZ > 0.05) {
+        let marsGlow = ctx.createRadialGradient(marsX - marsRadius * 0.35, marsY - marsRadius * 0.35, 0, marsX, marsY, marsRadius);
+        marsGlow.addColorStop(0, "#F4A261");
+        marsGlow.addColorStop(0.45, "#D96C3B");
+        marsGlow.addColorStop(0.75, "#B84A32");
+        marsGlow.addColorStop(1, "#49251F");
+
+        ctx.fillStyle = marsGlow;
+        ctx.lineWidth = Math.max(0.5, marsRadius * 0.08);
+
+        ctx.beginPath();
+        ctx.arc(marsX, marsY, marsRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(marsX, marsY, marsRadius, 0, Math.PI * 2);
+        ctx.clip();
+
+        crateraMars.forEach(cratera => {
+            let crateraX = marsX + cratera.x * marsRadius; 
+            let crateraY = marsY + cratera.y * marsRadius;
+            let crateraRadius = cratera.radius * marsRadius;
+            
+            ctx.fillStyle = `rgba(114, 81, 48, ${cratera.alpha})`;
+            ctx.beginPath();
+            ctx.arc(crateraX, crateraY, crateraRadius, 0, Math.PI * 2);
+            ctx.fill();
+        });
+
+        ctx.restore();
+
+        ctx.save();
+        
+        ctx.beginPath();
+        ctx.arc(marsX, marsY, marsRadius, 0, Math.PI * 2);
+        ctx.clip();
+        
+        terrenoMars.forEach(terreno => {
+            let terrenoX = marsX + terreno.x * marsRadius;
+            let terrenoY = marsY + terreno.y * marsRadius;
+            let terrenoWidth = terreno.width * marsRadius;
+            let terrenoHeight = terreno.height * marsRadius;
+            
+            ctx.save();
+            ctx.translate(terrenoX, terrenoY);
+            ctx.rotate(terreno.rotation);
+            
+            ctx.beginPath();
+            ctx.moveTo(-terrenoWidth * 0.5, 0);
+            
+            ctx.bezierCurveTo(-terrenoWidth * 0.4, -terrenoHeight, terrenoWidth * 0.2, -terrenoHeight, terrenoWidth * 0.5, -terrenoHeight * 0.2)
+            
+            ctx.bezierCurveTo(terrenoWidth * 0.7, terrenoHeight * 0.3, terrenoWidth * 0.1, terrenoHeight, -terrenoWidth * 0.5, 0);
+
+            ctx.closePath();
+            
+            ctx.fillStyle = `rgba(41, 7, 4, ${terreno.alpha})`;
+            ctx.fill();
+            
+            ctx.restore();
+        });
+
+        ctx.restore();
+        
+        createPolos(marsX, marsY, marsRadius, "#E8D2B0");
+    }
+
     let baseMoonX = (canvas.width * 0.37) - centerX;
     let baseMoonY = (canvas.height * 0.34) - centerY;
 
@@ -237,30 +318,32 @@ function cosmos() {
         ctx.arc(earthX, earthY, earthRadius, 0, Math.PI * 2);
         ctx.clip();
 
-        continentesEarth.forEach(continente => {
-            const continenteX = earthX + continente.x * earthRadius;
-            const continenteY = earthY + continente.y * earthRadius;
-            const continenteWidth = continente.width * earthRadius;
-            const continenteHeight = continente.height * earthRadius;
+        terrenoEarth.forEach(terreno => {
+            const terrenoX = earthX + terreno.x * earthRadius;
+            const terrenoY = earthY + terreno.y * earthRadius;
+            const terrenoWidth = terreno.width * earthRadius;
+            const terrenoHeight = terreno.height * earthRadius;
 
             ctx.save();
-            ctx.translate(continenteX, continenteY);
-            ctx.rotate(continente.rotation);
+            ctx.translate(terrenoX, terrenoY);
+            ctx.rotate(terreno.rotation);
 
             ctx.beginPath();
-            ctx.moveTo(-continenteWidth * 0.5, 0);
+            ctx.moveTo(-terrenoWidth * 0.5, 0);
 
-            ctx.bezierCurveTo(-continenteWidth * 0.4, -continenteHeight, continenteWidth * 0.2, -continenteHeight, continenteWidth * 0.5, -continenteHeight * 0.2)
+            ctx.bezierCurveTo(-terrenoWidth * 0.4, -terrenoHeight, terrenoWidth * 0.2, -terrenoHeight, terrenoWidth * 0.5, -terrenoHeight * 0.2)
 
-            ctx.bezierCurveTo(continenteWidth * 0.7, continenteHeight * 0.3, continenteWidth * 0.1, continenteHeight, -continenteWidth * 0.5, 0);
+            ctx.bezierCurveTo(terrenoWidth * 0.7, terrenoHeight * 0.3, terrenoWidth * 0.1, terrenoHeight, -terrenoWidth * 0.5, 0);
 
             ctx.closePath();
 
-            ctx.fillStyle = `rgba(36, 116, 67, ${0.7 + continente.alpha})`;
+            ctx.fillStyle = `rgba(36, 116, 67, ${0.7 + terreno.alpha})`;
             ctx.fill();
 
             ctx.restore();
         })
+
+        createPolos(earthX, earthY, earthRadius, "#EAF7FF");
 
         cloudsEarth.forEach(cloud => {
             let cloudX = earthX + cloud.x * earthRadius;
@@ -428,11 +511,23 @@ function cosmos() {
     ctx.fill();
 }
 
-function createContinentesEarth() {
-    let continentes = [];
+function createPolos(x, y, radius, cor) {
+    ctx.fillStyle = cor;
+
+    ctx.beginPath();
+    ctx.ellipse(x, y - radius * 0.8, radius * 0.35, radius * 0.12, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.ellipse(x, y + radius * 0.8, radius * 0.35, radius * 0.12, 0, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function createTerreno() {
+    let terreno = [];
 
     for (let i = 0; i < 7; i++) {
-        continentes.push({
+        terreno.push({
             x: Math.random() * 1.2 - 0.6,
             y: Math.random() * 1.3 - 0.8,
             width: Math.random() * 0.5 + 0.3,
@@ -441,9 +536,10 @@ function createContinentesEarth() {
             rotation: Math.random() * Math.PI
         });
     }
-    return continentes;
+    return terreno;
 }
-const continentesEarth = createContinentesEarth();
+const terrenoEarth = createTerreno();
+const terrenoMars = createTerreno();
 
 function createClouds() {
     let clouds = [];
@@ -478,6 +574,7 @@ function createCrateras() {
 }
 const craterasMercury = createCrateras();
 const craterasMoon = createCrateras();
+const crateraMars = createCrateras().slice(0, 15);
 
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
