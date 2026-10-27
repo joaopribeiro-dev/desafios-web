@@ -50,6 +50,7 @@ window.addEventListener('resize', ()=> {
 });
 
 let blackHoleZ = 1;
+let jupiterZ = 1;
 let marsZ = 1;
 let moonZ = 1;
 let earthZ = 1;
@@ -66,7 +67,7 @@ function cosmos() {
 
     if (isWarping) {
         sunZ -= 0.015;
-
+jupiterZ -= 0.015;
         if (speed >= 50) {
             mercuryZ -= 0.015;
         }
@@ -80,7 +81,10 @@ function cosmos() {
         if (speed >= 200) {
             marsZ -= 0.015;
         }
-        if (speed >= 300) {
+        if (speed >= 250) {
+            
+        }
+        if (speed >= 350) {
             blackHoleZ -= 0.015;
         }
     }
@@ -170,6 +174,148 @@ function cosmos() {
             ctx.beginPath();
             ctx.ellipse(0, 0, Math.max(0, r * 2.5), Math.max(0, r * 0.34), 0, 0, Math.PI);
             ctx.stroke();
+        }
+        ctx.restore();
+    }
+
+    let baseJupiterX = (canvas.width * 0.75) - centerX;
+    let baseJupiterY = (canvas.height * 0.75) - centerY;
+
+    let jupiterK = 1 / Math.max(0.01, jupiterZ);
+    let jupiterX = centerX + baseJupiterX * jupiterK;
+    let jupiterY = centerY + baseJupiterY * jupiterK;
+    let jupiterRadius = 35 * jupiterK;
+// speed >= 250 && 
+    if (jupiterZ > 0.05) {
+        const orbitalTime = time % (Math.PI * 2);
+
+        ctx.save();
+        ctx.translate(jupiterX, jupiterY);
+        ctx.rotate(30 * Math.PI / -270);
+
+        const numLinhas = 3;
+        for (let i = 0; i < numLinhas; i++) {
+            let r = (jupiterRadius * 1.3) + (i * 0.75 * jupiterK) + Math.sin(orbitalTime * 2 + i) * 1.5;
+            let orbitalSpeed = 1.2 / Math.max(1, r) / 40;
+
+            let startAngle = (orbitalTime * orbitalSpeed) + (i * 0.25);
+            let arcLength = 1.5 + Math.sin(orbitalTime + i) * 0.8;
+            let endAngle = startAngle + arcLength;
+
+            let alpha = (1 - (i / numLinhas)) * 0.45;
+            let color = i < 1 ? `rgba(200, 182, 154, ${alpha * 0.15})`:
+                        i < 2 ? `rgba(181, 161, 132, ${alpha * 0.3})`:
+                        `rgba(140, 129, 116, ${alpha * 0.12})`
+                        
+                        ctx.strokeStyle = color;
+                        ctx.lineWidth = Math.max(0.5, (1.8 + (Math.sin(orbitalTime + 1) * 0.4)) * jupiterK);
+                        ctx.beginPath();
+                        ctx.ellipse(0, 0, Math.max(0, r * 2.5), Math.max(0, r * 0.34), 0, Math.PI, Math.PI * 2);
+                        ctx.stroke();
+        }
+        ctx.restore();
+
+        let jupiterGlow = ctx.createRadialGradient(jupiterX - jupiterRadius * 0.35, jupiterY - jupiterRadius * 0.35, 0, jupiterX, jupiterY, jupiterRadius);
+        jupiterGlow.addColorStop(0, "#F5E4C5");
+        jupiterGlow.addColorStop(0.45, "#D8B58A");
+        jupiterGlow.addColorStop(0.8, "#A97850");
+        jupiterGlow.addColorStop(1, "#493329");
+
+        ctx.fillStyle = jupiterGlow;
+        ctx.beginPath();
+        ctx.arc(jupiterX, jupiterY, jupiterRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.save();
+
+        ctx.translate(jupiterX, jupiterY);
+
+        ctx.beginPath();
+        ctx.arc(0, 0, jupiterRadius, 0, Math.PI * 2);
+        ctx.clip();
+
+        const faixasAtmosfericas = [
+            {y: -0.72, h: 0.12, color: "#B77D55"},
+            {y: -0.53, h: 0.10, color: "#F0D5AC"},
+            {y: -0.32, h: 0.16, color: "#A96943"},
+            {y: -0.08, h: 0.12, color: "#E8C69A"},
+            {y: 0.13, h: 0.17, color: "#B87951"},
+            {y: 0.38, h: 0.12, color: "#E9D0A9"},
+            {y: 0.59, h: 0.13, color: "#A96F4B"},
+            {y: 0.79, h: 0.10, color: "#D8B58A"}
+        ];
+
+        for (const faixa of faixasAtmosfericas) {
+            const y = faixa.y * jupiterRadius;
+            const h = faixa.h * jupiterRadius;
+
+            ctx.fillStyle = faixa.color;
+            ctx.globalAlpha = 0.72;
+            
+            ctx.beginPath();
+            ctx.moveTo(-jupiterRadius, y);
+
+            ctx.bezierCurveTo(-jupiterRadius * 0.4, y - h * 0.6, jupiterRadius * 0.3, y + h * 0.6, jupiterRadius, y);
+
+            ctx.lineTo(jupiterRadius, y + h);
+
+            ctx.bezierCurveTo(jupiterRadius * 0.3, y + h * 1.4, -jupiterRadius * 0.4, y + h * 0.4, -jupiterRadius, y + h);
+
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        ctx.globalAlpha = 1;
+
+        ctx.save();
+
+        ctx.translate(jupiterRadius * 0.3, jupiterRadius * 0.28);
+        ctx.rotate(-0.12);
+
+        ctx.fillStyle = "#B85E43";
+        ctx.beginPath();
+        ctx.ellipse(0, 0, jupiterRadius * 0.25, jupiterRadius * 0.13, 0, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.strokeStyle = "rgba(112, 52, 39, 0.55)";
+        ctx.lineWidth = Math.max(0.5, jupiterRadius * 0.025);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, jupiterRadius * 0.17, jupiterRadius * 0.07, 0, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.restore();
+        ctx.restore();
+
+        ctx.strokeStyle = "rgba(255, 236, 200, 0.4)";
+        ctx.lineWidth = Math.max(0.5, jupiterRadius * 0.025);
+        ctx.beginPath();
+        ctx.arc(jupiterX, jupiterY, jupiterRadius * 0.98, Math.PI * 1.05, Math.PI * 1.65);
+        ctx.stroke();
+
+        ctx.restore();
+
+        ctx.save();
+        ctx.translate(jupiterX, jupiterY);
+        ctx.rotate(30 * Math.PI / -270);
+
+        for (let i = 0; i < numLinhas; i++) {
+            let r = (jupiterRadius * 1.3) + (i * 0.75 * jupiterK) + Math.sin(orbitalTime * 2 + i) * 1.5;
+            let orbitalSpeed = 1.2 / Math.max(1, r) / 40;
+
+            let startAngle = (orbitalTime * orbitalSpeed) + (i * 0.25);
+            let arcLength = 1.5 + Math.sin(orbitalTime + i) * 0.8;
+            let endAngle = startAngle + arcLength;
+
+            let alpha = (1 - (i / numLinhas)) * 0.45;
+            let color = i < 1 ? `rgba(200, 182, 154, ${alpha * 0.15})`:
+                        i < 2 ? `rgba(181, 161, 132, ${alpha * 0.3})`:
+                        `rgba(140, 129, 116, ${alpha * 0.12})`
+                        
+                        ctx.strokeStyle = color;
+                        ctx.lineWidth = Math.max(0.5, (1.8 + (Math.sin(orbitalTime + 1) * 0.4)) * jupiterK);
+                        ctx.beginPath();
+                        ctx.ellipse(0, 0, Math.max(0, r * 2.5), Math.max(0, r * 0.34), 0, 0, Math.PI );
+                        ctx.stroke();
         }
         ctx.restore();
     }
@@ -707,11 +853,11 @@ form.addEventListener('submit', (event)=> {
         const velocidade = setInterval(() => {
             speed += 2;
 
-            if (speed >= 270) {
-                fadeOpacity = (speed - 270) / 30;
+            if (speed >= 370) {
+                fadeOpacity = (speed - 370) / 30;
             }
 
-            if (speed >= 320) {
+            if (speed >= 420) {
                 fadeOpacity = 1;
                 clearInterval(velocidade);
 
