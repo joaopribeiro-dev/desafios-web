@@ -59,33 +59,33 @@ let mercuryZ = 1;
 let sunZ = 1;
 let isWarping = false;
 
-function cosmos() {
-    time += 0.03;
+function cosmos(frameScale) {
+    time += 0.03 * frameScale;
 
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
 
     if (isWarping) {
-        sunZ -= 0.015;
-jupiterZ -= 0.015;
+        sunZ -= 0.015 * frameScale;
+
         if (speed >= 50) {
-            mercuryZ -= 0.015;
+            mercuryZ -= 0.015 * frameScale;
         }
         if (speed >= 100) {
-            venusZ -= 0.015;
+            venusZ -= 0.015 * frameScale;
         }
         if (speed >= 150) {
-            earthZ -= 0.015;
-            moonZ -= 0.015;
+            earthZ -= 0.015 * frameScale;
+            moonZ -= 0.015 * frameScale;
         }
         if (speed >= 200) {
-            marsZ -= 0.015;
+            marsZ -= 0.015 * frameScale;
         }
         if (speed >= 250) {
-            
+            jupiterZ -= 0.015 * frameScale;
         }
-        if (speed >= 350) {
-            blackHoleZ -= 0.015;
+        if (speed >= 300) {
+            blackHoleZ -= 0.015 * frameScale;
         }
     }
 
@@ -178,15 +178,15 @@ jupiterZ -= 0.015;
         ctx.restore();
     }
 
-    let baseJupiterX = (canvas.width * 0.75) - centerX;
-    let baseJupiterY = (canvas.height * 0.75) - centerY;
+    let baseJupiterX = (canvas.width * 0.65) - centerX;
+    let baseJupiterY = (canvas.height * 0.65) - centerY;
 
     let jupiterK = 1 / Math.max(0.01, jupiterZ);
     let jupiterX = centerX + baseJupiterX * jupiterK;
     let jupiterY = centerY + baseJupiterY * jupiterK;
     let jupiterRadius = 35 * jupiterK;
-// speed >= 250 && 
-    if (jupiterZ > 0.05) {
+ 
+    if (speed >= 250 && jupiterZ > 0.05) {
         const orbitalTime = time % (Math.PI * 2);
 
         ctx.save();
@@ -722,14 +722,25 @@ const craterasMercury = createCrateras();
 const craterasMoon = createCrateras();
 const crateraMars = createCrateras().slice(0, 15);
 
-function animate() {
+let lastTime = 0;
+const referenceFPS = 60;
+
+function animate(timestamp) {
+    const deltaTime = lastTime === 0
+        ? 1 / referenceFPS
+        : Math.min((timestamp - lastTime) / 1000, 0.05);
+
+    lastTime = timestamp;
+
+    const frameScale = deltaTime * referenceFPS;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.globalCompositeOperation = "screen";
 
     nebulas.forEach(nebula => {
-        nebula.x += nebula.vx;
-        nebula.y += nebula.vy;
+        nebula.x += nebula.vx * frameScale;
+        nebula.y += nebula.vy * frameScale;
 
         if (nebula.x < -nebula.radius) nebula.x = canvas.width + nebula.radius;
         if (nebula.x > canvas.width + nebula.radius) nebula.x = -nebula.radius;
@@ -751,7 +762,7 @@ function animate() {
 
     ctx.globalCompositeOperation = "source-over";
 
-    cosmos();
+    cosmos(frameScale);
 
     ctx.fillStyle = "#ffffff";
     ctx.strokeStyle = "#ffffff";
@@ -761,7 +772,7 @@ function animate() {
 
     stars.forEach(star => {
         star.prevZ = star.z;
-        star.z -= speed;
+        star.z -= speed * frameScale;
 
         if (star.z <= 0) {
             star.z = canvas.width;
@@ -834,7 +845,7 @@ function createNebula() {
 
 createNebula();
 
-animate();
+requestAnimationFrame(animate);
 
 form.addEventListener('submit', (event)=> {
     event.preventDefault();
