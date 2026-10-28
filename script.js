@@ -806,7 +806,7 @@ stars.forEach(star => {
     }
 
     if (wasReset) {
-        continue;
+        return;
     }
 
     const prevK = focalLength / previousZ;
@@ -814,7 +814,7 @@ stars.forEach(star => {
     const prevPy = centerY + previousY * prevK;
 
     if (px < 0 || px > canvas.width || py < 0 || py > canvas.height) {
-        continue;
+        return;
     }
 
     ctx.globalAlpha = star.alpha;
