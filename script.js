@@ -33,6 +33,15 @@ function createStars() {
     };
 }
 
+function resetStar(star) {
+    star.x = (Math.random() - 0.5) * canvas.width * 2;
+    star.y = (Math.random() - 0.5) * canvas.height * 2;
+    star.z = canvas.width;
+    star.prevZ = star.z;
+    star.radius = Math.random() * 1.5;
+    star.alpha = Math.random();
+}
+
 for (let i = 0; i < numStars; i++) {
     let s = createStars();
     s.prevZ = s.z;
@@ -283,7 +292,6 @@ function cosmos(frameScale) {
         ctx.ellipse(0, 0, jupiterRadius * 0.17, jupiterRadius * 0.07, 0, 0, Math.PI * 2);
         ctx.stroke();
 
-        ctx.restore();
         ctx.restore();
 
         ctx.strokeStyle = "rgba(255, 236, 200, 0.4)";
@@ -770,46 +778,75 @@ function animate(timestamp) {
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
 
-    stars.forEach(star => {
-        star.prevZ = star.z;
-        star.z -= speed * frameScale;
+stars.forEach(star => {
+    const previousX = star.x;
+    const previousY = star.y;
+    const previousZ = star.z;
 
-        if (star.z <= 0) {
-            star.z = canvas.width;
-            star.x = (Math.random() - 0.5) * canvas.width * 2;
-            star.y = (Math.random() - 0.5) * canvas.height * 2;
-            star.prevZ = star.z;
-        }
+    let wasReset = false;
 
-        let k = focalLength / star.z;
-        let px = centerX + star.x * k;
-        let py = centerY + star.y * k;
+    star.z -= speed * frameScale;
 
-        let prevK = focalLength / star.prevZ;
-        let prevPx = centerX + star.x * prevK;
-        let prevPy = centerY + star.y * prevK;
+    if (star.z <= 0) {
+        resetStar(star);
+        wasReset = true;
+    }
 
-        if (px < 0 || px > canvas.width || py < 0 || py > canvas.height) {
-            return;
-        }
+    let k = focalLength / star.z;
+    let px = centerX + star.x * k;
+    let py = centerY + star.y * k;
 
-        ctx.globalAlpha = star.alpha;
+    if (!wasReset && star.z < canvas.width * 0.5 && (px < 0 || px > canvas.width || py < 0 || py > canvas.height)) {
+        resetStar(star);
+        wasReset = true;
 
-        if (speed >= 30) {
-            let multiplier = (speed / 30) * 2;
+        k = focalLength / star.z;
+        px = centerX + star.x * k;
+        py = centerY + star.y * k;
+    }
 
-            ctx.lineWidth = star.radius * (1 - star.z / canvas.width) * multiplier;
-            ctx.beginPath();
-            ctx.moveTo(prevPx, prevPy);
-            ctx.lineTo(px, py);
-            ctx.stroke();
-        } else {
-            let currentRadius = Math.max(0.2, (1 - star.z / canvas.width) * star.radius * 2.5);
-            ctx.beginPath();
-            ctx.arc(px, py, currentRadius, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    });
+    if (wasReset) {
+        continue;
+    }
+
+    const prevK = focalLength / previousZ;
+    const prevPx = centerX + previousX * prevK;
+    const prevPy = centerY + previousY * prevK;
+
+    if (px < 0 || px > canvas.width || py < 0 || py > canvas.height) {
+        continue;
+    }
+
+    ctx.globalAlpha = star.alpha;
+
+    if (speed >= 30) {
+        const multiplier = Math.min((speed / 30) * 2, 8);
+
+        ctx.lineWidth = Math.min(
+            Math.max(
+                0.5,
+                star.radius *
+                (1 - star.z / canvas.width) *
+                multiplier
+            ),
+            3
+        );
+
+        ctx.beginPath();
+        ctx.moveTo(prevPx, prevPy);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+    } else {
+        const currentRadius = Math.max(
+            0.2,
+            (1 - star.z / canvas.width) * star.radius * 2.5
+        );
+
+        ctx.beginPath();
+        ctx.arc(px, py, currentRadius, 0, Math.PI * 2);
+        ctx.fill();
+    }
+});
 
     ctx.globalAlpha = 1;
 
