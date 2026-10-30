@@ -1090,6 +1090,8 @@ createNebula();
 
 requestAnimationFrame(animate);
 
+const central = document.querySelector(".central");
+
 form.addEventListener('submit', (event)=> {
     event.preventDefault();
 
@@ -1098,6 +1100,9 @@ form.addEventListener('submit', (event)=> {
     if (typedValue === "hello world" || typedValue === "hello world!") {
         errorMessage.style.color = "#00f2fe";
         errorMessage.textContent = "ACESSO CONCEDIDO! Entrando...";
+
+        central.style.pointerEvents = "none";
+        central.inert = true;
 
         document.querySelector(".central").style.transition = "opacity 0.5s";
         document.querySelector(".central").style.opacity = "0";
@@ -1130,5 +1135,8 @@ form.addEventListener('submit', (event)=> {
     }
 });
 skipBtn.addEventListener('click', ()=> {
+    central.style.pointerEvents = "none";
+    central.inert = true;
+
     window.location.href = "home.html";
 })
