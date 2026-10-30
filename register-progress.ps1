@@ -1,4 +1,4 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 
 try {
     # Localiza a raiz do repositório.
@@ -20,7 +20,7 @@ try {
     }
 
     # Lê os dados atuais.
-    $data = Get-Content $progressFile -Raw | ConvertFrom-Json
+    $data = Get-Content $progressFile -Raw -Encoding UTF8 | ConvertFrom-Json
 
     if ($null -eq $data.diaAtual -or $null -eq $data.datasContabilizadas) {
         throw "O formato de progress.json está incorreto."
@@ -36,7 +36,7 @@ try {
     }
 
     # Lê o HTML e verifica a estrutura antes de alterar os dados.
-    $html = Get-Content $homeFile -Raw
+    $html = Get-Content $homeFile -Raw -Encoding UTF8
 
     $pattern = '(?s)(<div\s+class="progresso">.*?<p>\s*Dia\s+\d+\s*</p>.*?<p>\s*Dia\s+)\d+(\s*</p>)'
 
