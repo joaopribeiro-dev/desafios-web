@@ -58,6 +58,7 @@ window.addEventListener('resize', ()=> {
     });
 });
 
+let astroProgress = 0;
 let blackHoleZ = 1;
 let saturnZ = 1;
 let jupiterZ = 1;
@@ -78,26 +79,26 @@ function cosmos(frameScale) {
     if (isWarping) {
         sunZ -= 0.015 * frameScale;
 
-        if (speed >= 50) {
+        if (astroProgress >= 0.125) {
             mercuryZ -= 0.015 * frameScale;
         }
-        if (speed >= 100) {
+        if (astroProgress >= 0.25) {
             venusZ -= 0.015 * frameScale;
         }
-        if (speed >= 150) {
+        if (astroProgress >= 0.375) {
             earthZ -= 0.015 * frameScale;
             moonZ -= 0.015 * frameScale;
         }
-        if (speed >= 200) {
+        if (astroProgress >= 0.5) {
             marsZ -= 0.015 * frameScale;
         }
-        if (speed >= 250) {
+        if (astroProgress >= 0.625) {
             jupiterZ -= 0.015 * frameScale;
         }
-        if (speed >= 300) {
+        if (astroProgress >= 0.75) {
             saturnZ -= 0.015 * frameScale;
         }
-        if (speed >= 350) {
+        if (astroProgress >= 0.875) {
             blackHoleZ -= 0.015 * frameScale;
         }
     }
@@ -110,7 +111,7 @@ function cosmos(frameScale) {
     let blackHoleY = centerY + baseBhY * kBh;
     let blackHoleRadius = 100 * kBh;
 
-    if (speed >= 350 && blackHoleZ > 0.05) {
+    if (astroProgress >= 0.875 && blackHoleZ > 0.05) {
         const orbitalTime = time % (Math.PI * 2);
 
         ctx.save();
@@ -199,7 +200,7 @@ function cosmos(frameScale) {
     let saturnY = centerY + baseSaturnY * saturnK;
     let saturnRadius = 30 * saturnK;
 
-    if (speed >= 300 && saturnZ > 0.05) {
+    if (astroProgress >= 0.75 && saturnZ > 0.05) {
         const orbitalTime = time % (Math.PI * 2);
 
         ctx.save();
@@ -320,7 +321,7 @@ function cosmos(frameScale) {
     let jupiterY = centerY + baseJupiterY * jupiterK;
     let jupiterRadius = 35 * jupiterK;
  
-    if (speed >= 250 && jupiterZ > 0.05) {
+    if (astroProgress >= 0.625 && jupiterZ > 0.05) {
         const orbitalTime = time % (Math.PI * 2);
 
         ctx.save();
@@ -461,7 +462,7 @@ function cosmos(frameScale) {
     let marsY = centerY + baseMarsY * marsK;
     let marsRadius = 23 * marsK;
 
-    if (speed >= 200 && marsZ > 0.05) {
+    if (astroProgress >= 0.5 && marsZ > 0.05) {
         let marsGlow = ctx.createRadialGradient(marsX - marsRadius * 0.35, marsY - marsRadius * 0.35, 0, marsX, marsY, marsRadius);
         marsGlow.addColorStop(0, "#F4A261");
         marsGlow.addColorStop(0.45, "#D96C3B");
@@ -537,7 +538,7 @@ function cosmos(frameScale) {
     let moonY = centerY + baseMoonY * moonK;
     let moonRadius = 15 * moonK;
 
-    if (speed >= 150 && moonZ > 0.05) {
+    if (astroProgress >= 0.375 && moonZ > 0.05) {
         let moonGlow = ctx.createRadialGradient(moonX - moonRadius * 0.3, moonY - moonRadius * 0.3, 0, moonX, moonY, moonRadius);
         moonGlow.addColorStop(0, "#D6D6D6");
         moonGlow.addColorStop(0.5, "#a0a4ac");
@@ -577,7 +578,7 @@ function cosmos(frameScale) {
     let earthY = centerY + baseEarthY * earthK;
     let earthRadius = 25 * earthK;
 
-    if (speed >= 150 && earthZ > 0.05) {
+    if (astroProgress >= 0.375 && earthZ > 0.05) {
         let earthGlow = ctx.createRadialGradient(earthX - earthRadius * 0.3, earthY - earthRadius * 0.3, 0, earthX, earthY, earthRadius);
         earthGlow.addColorStop(0, "#061B49");
         earthGlow.addColorStop(0.5, "#1479D1");
@@ -660,7 +661,7 @@ function cosmos(frameScale) {
     let venusY = centerY + baseVenusY * venusK;
     let venusRadius = 20 * venusK;
 
-    if (speed >= 100 && venusZ > 0.05) {
+    if (astroProgress >= 0.25 && venusZ > 0.05) {
         let venusGlow = ctx.createRadialGradient(venusX - venusRadius * 0.3, venusY - venusRadius * 0.3, 0, venusX, venusY, venusRadius);
         venusGlow.addColorStop(0, "#FFF1B8");
         venusGlow.addColorStop(0.5, "#E8C477");
@@ -713,7 +714,7 @@ function cosmos(frameScale) {
     let mercuryY = centerY + baseMercuryY * mercuryK;
     let mercuryRadius = 15 * mercuryK;
 
-    if (speed >= 50 && mercuryZ > 0.05) {
+    if (astroProgress >= 0.125 && mercuryZ > 0.05) {
         let mercuryGlow = ctx.createRadialGradient(mercuryX - mercuryRadius * 0.3, mercuryY - mercuryRadius * 0.3, 0, mercuryX, mercuryY, mercuryRadius);
         mercuryGlow.addColorStop(0, "#B5B0A8");
         mercuryGlow.addColorStop(0.5, "#8C8985");
@@ -945,17 +946,7 @@ stars.forEach(star => {
     ctx.globalAlpha = star.alpha;
 
     if (speed >= 30) {
-        const multiplier = Math.min((speed / 30) * 2, 8);
-
-        ctx.lineWidth = Math.min(
-            Math.max(
-                0.5,
-                star.radius *
-                (1 - star.z / canvas.width) *
-                multiplier
-            ),
-            3
-        );
+        ctx.lineWidth = Math.min(1.5, Math.max(0.4, star.radius * (1 - star.z / canvas.width) * 1.2));
 
         ctx.beginPath();
         ctx.moveTo(prevPx, prevPy);
@@ -1025,12 +1016,13 @@ form.addEventListener('submit', (event)=> {
 
         const velocidade = setInterval(() => {
             speed += 2;
+            astroProgress = Math.min(astroProgress + 0.01, 1);
 
-            if (speed >= 400) {
-                fadeOpacity = (speed - 400) / 30;
+            if (speed >= 180) {
+                fadeOpacity = (speed - 180) / 25;
             }
 
-            if (speed >= 450) {
+            if (speed >= 230) {
                 fadeOpacity = 1;
                 clearInterval(velocidade);
 
