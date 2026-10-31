@@ -3,202 +3,541 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prática Web</title>
+    <meta name="theme-color" content="#050505">
+    <title>Prática Web | João</title>
     <link rel="stylesheet" href="./home.css">
-
     <script src="./analytics-consent.js" defer></script>
+    <script src="./home.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Prática Web</h1>
-    </header>
-    <hr>
-    <h2>Linguagens</h2>
-    <section class="linguagens">
-        <div class="ativa">
-            <h2>Ativas</h2>
-            <p id="html">HTML</p>
-            <p id="css">CSS</p>
-        </div>
-        <div class="em-andamento">
-            <h2>Em andamento</h2>
-            <p id="java-script">Java Script</p>
-            <p id="php">PHP</p>
-        </div>
-        <div class="em-breve">
-            <h2>Em breve</h2>
-            <p id="sql">SQL</p>
-        </div>
-    </section>
-    <hr>
-    <h2>Práticas Feitas</h2>
-    <div class="progresso">
-        <p>Dia 1</p>
-        <div class="barra-progresso"></div>
-        <p>Dia 59</p>
+    <div class="viewport">
+        <main class="telas">
+
+            <!-- =================================
+                 TELA DE PROJETOS
+            ================================== -->
+
+            <section class="tela tela-projetos">
+                <header class="header">
+                    <a class="logo" href="#inicio" aria-label="Prática Web">
+                        <span class="logo-icon">✦</span>
+                        <span>PRÁTICA<span class="verde">WEB</span></span>
+                    </a>
+                    <div class="header-status">
+                        <span class="status-dot"></span>
+                        SYSTEM ONLINE
+                    </div>
+                    <nav class="navegacao">
+                        <button class="btn-nav ativo" data-tela="projetos">Projetos</button>
+                        <button class="btn-nav" data-tela="sobre">Sobre Mim</button>
+                    </nav>
+                </header>
+                <div class="conteudo">
+                    <section class="hero" id="inicio">
+                        <div class="hero-tag">
+                            <span class="status-dot"></span>
+                            PORTFÓLIO DE DESENVOLVIMENTO
+                        </div>
+                        <h1>Explorando o universo da <span class="verde">programação.</span></h1>
+                        <p>
+                            Uma jornada de aprendizado, experimentação e criação.
+                            Cada projeto representa um novo desafio e mais um passo
+                            na minha evolução como desenvolvedor.
+                        </p>
+                        <div class="hero-info">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JAVASCRIPT</span>
+                            <span>PHP</span>
+                            <span>SQL</span>
+                        </div>
+                    </section>
+
+                    <!-- LINGUAGENS -->
+
+                    <section class="secao">
+                        <div class="secao-titulo">
+                            <div>
+                                <span class="eyebrow">01 / TECNOLOGIAS</span>
+                                <h2>Meu arsenal</h2>
+                            </div>
+                            <span class="secao-numero">TECH STACK</span>
+                        </div>
+                        <div class="linguagens">
+                            <article class="tech-card ativa">
+                                <span class="tech-status">DOMINADAS</span>
+                                <h3>Ativas</h3>
+                                <div class="tech-lista">
+                                    <span id="html">HTML</span>
+                                    <span id="css">CSS</span>
+                                </div>
+                            </article>
+                            <article class="tech-card em-andamento">
+                                <span class="tech-status">EM APRENDIZADO</span>
+                                <h3>Em andamento</h3>
+                                <div class="tech-lista">
+                                    <span id="java-script">JavaScript</span>
+                                    <span id="php">PHP</span>
+                                </div>
+                            </article>
+                            <article class="tech-card em-breve">
+                                <span class="tech-status">PRÓXIMA ETAPA</span>
+                                <h3>Em breve</h3>
+                                <div class="tech-lista">
+                                    <span id="sql">SQL</span>
+                                </div>
+                            </article>
+
+                        </div>
+                    </section>
+
+                    <!-- PROGRESSO -->
+
+                    <section class="secao">
+                        <div class="secao-titulo">
+                            <div>
+                                <span class="eyebrow">02 / EVOLUÇÃO</span>
+                                <h2>Uma jornada em construção</h2>
+                            </div>
+                            <span class="secao-numero">DAY 59</span>
+                        </div>
+                        <div class="progresso-card">
+                            <div class="progresso-info">
+                                <div>
+                                    <span class="progresso-label">TEMPO DE PRÁTICA</span>
+                                    <h3>59 dias de evolução</h3>
+                                </div>
+                                <span class="progresso-valor">DIA 59</span>
+                            </div>
+                            <div class="barra-progresso">
+                                <div class="barra-preenchida"></div>
+                            </div>
+
+                            <div class="progresso-legenda">
+                                <span>O começo da jornada</span>
+                                <span>Em constante evolução</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- PROJETOS -->
+
+                    <section class="secao">
+                        <div class="secao-titulo">
+                            <div>
+                                <span class="eyebrow">03 / LABORATÓRIO</span>
+                                <h2>Projetos práticos desenvolvidos</h2>
+                                <p class="secao-descricao">
+                                    Ideias transformadas em experiências funcionais.
+                                </p>
+                            </div>
+                            <span class="secao-numero">12 PROJECTS</span>
+                        </div>
+                        <div class="group-cards">
+                            <article class="card">
+                                <div class="card-imagem">
+                                    <img src="./images/images_home/card-produto.png" alt="Card de produto">
+                                    <span class="card-numero">01</span>
+                                </div>
+                                <div class="card-conteudo">
+                                    <span class="card-categoria">HTML / CSS</span>
+                                    <h3>Card de Produto</h3>
+                                    <p>Uma apresentação visual de produto.</p>
+                                    <a target="_blank" rel="noopener noreferrer" href="./01-card-produto/src/index.html">Explorar projeto ↗</a>
+                                    <details>
+                                        <summary>Ver evolução</summary>
+                                        <ul>
+                                            <li>Criando card de produto</li>
+                                        </ul>
+                                    </details>
+                                </div>
+                            </article>
+                            <article class="card">
+                                <div class="card-imagem">
+                                    <img src="./images/images_home/cartao-perfil-social.png" alt="Cartão de perfil social">
+                                    <span class="card-numero">02</span>
+                                </div>
+                                <div class="card-conteudo">
+                                    <span class="card-categoria">HTML / CSS</span>
+                                    <h3>Cartão de Perfil Social</h3>
+                                    <p>Um cartão de apresentação pessoal.</p>
+                                    <a target="_blank" rel="noopener noreferrer" href="./02-cartao-perfil-social/src/index.html">Explorar projeto ↗</a>
+                                    <details>
+                                        <summary>Ver evolução</summary>
+                                        <ul>
+                                            <li>Criando cartão de perfil social</li>
+                                        </ul>
+                                    </details>
+                                </div>
+                            </article>
+                            <article class="card">
+                                <div class="card-imagem">
+                                    <img src="./images/images_home/tela-login.png" alt="Tela de login">
+                                    <span class="card-numero">03</span>
+                                </div>
+                                <div class="card-conteudo">
+                                    <span class="card-categoria">HTML / CSS</span>
+                                    <h3>Tela de Login</h3>
+                                    <p>Interface de autenticação.</p>
+                                    <a target="_blank" rel="noopener noreferrer" href="./03-tela-login/src/index.html">Explorar projeto ↗</a>
+                                    <details>
+                                        <summary>Ver evolução</summary>
+                                        <ul>
+                                            <li>Criando uma tela de login</li>
+                                        </ul>
+                                    </details>
+                                </div>
+                            </article>
+                            <article class="card">
+                                <div class="card-imagem">
+                                    <img src="./images/images_home/tabela-preco.png" alt="Tabela de preços gamer">
+                                    <span class="card-numero">04</span>
+                                </div>
+                                <div class="card-conteudo">
+                                    <span class="card-categoria">HTML / CSS</span>
+                                    <h3>Tabela de Preços Gamer</h3>
+                                    <p>Comparação visual de planos e preços.</p>
+                                    <a target="_blank" rel="noopener noreferrer" href="./04-tabela-preco/src/index.html">Explorar projeto ↗</a>
+                                    <details>
+                                        <summary>Ver evolução</summary>
+                                        <ul>
+                                            <li>Criando uma tabela de preços gamer</li>
+                                        </ul>
+                                    </details>
+                                </div>
+                            </article>
+                            <article class="card">
+                                <div class="card-imagem">
+                                    <img src="./images/images_home/landing-page.png" alt="Landing page">
+                                    <span class="card-numero">05</span>
+                                </div>
+                                <div class="card-conteudo">
+                                    <span class="card-categoria">HTML / CSS</span>
+                                    <h3>Landing Page</h3>
+                                    <p>Uma página para apresentar serviços.</p>
+                                    <a target="_blank" rel="noopener noreferrer" href="./05-curso-linguagens/src/index.html">Explorar projeto ↗</a>
+                                    <details>
+                                        <summary>Ver evolução</summary>
+                                        <ul>
+                                            <li>Criando uma landing page</li>
+                                        </ul>
+                                    </details>
+                                </div>
+                            </article>
+                            <article class="card">
+                                <div class="card-imagem">
+                                    <img src="./images/images_home/servico-gaming.png" alt="Serviços Cloud Gaming">
+                                    <span class="card-numero">06</span>
+                                </div>
+                                <div class="card-conteudo">
+                                    <span class="card-categoria">HTML / CSS</span>
+                                    <h3>Serviços Cloud Gaming</h3>
+                                    <p>Uma experiência de apresentação de serviços gamer.</p>
+                                    <a target="_blank" rel="noopener noreferrer" href="./06-servico-gaming/src/index.html">Explorar projeto ↗</a>
+                                    <details>
+                                        <summary>Ver evolução</summary>
+                                        <ul>
+                                            <li>Criando a página de serviços</li>
+                                            <li>Adicionando galeria de jogos</li>
+                                            <li>Adicionando FAQ</li>
+                                            <li>Header fixo e responsividade</li>
+                                            <li>Glassmorphism e polimento de botões</li>
+                                        </ul>
+                                    </details>
+                                </div>
+                            </article>
+                            <article class="card">
+                                <div class="card-imagem">
+                                    <img src="./images/images_home/dashboard-gamer.png" alt="Dashboard gamer">
+                                    <span class="card-numero">07</span>
+                                </div>
+                                <div class="card-conteudo">
+                                    <span class="card-categoria">HTML / CSS</span>
+                                    <h3>Dashboard Gamer</h3>
+                                    <p>Painel com biblioteca, perfil e configurações.</p>
+                                    <a target="_blank" rel="noopener noreferrer" href="./07-dashboard-gamer/src/index.html">Explorar projeto ↗</a>
+                                    <details>
+                                        <summary>Ver evolução</summary>
+                                        <ul>
+                                            <li>Criando um dashboard gamer</li>
+                                            <li>Finalizando biblioteca, perfil e configurações</li>
+                                        </ul>
+                                    </details>
+                                </div>
+                            </article>
+                            <article class="card">
+                                <div class="card-imagem">
+                                    <img src="./images/images_home/player-music.png" alt="Music Player">
+                                    <span class="card-numero">08</span>
+                                </div>
+                                <div class="card-conteudo">
+                                    <span class="card-categoria">HTML / CSS</span>
+                                    <h3>Music Player</h3>
+                                    <p>Player com playlist e interações.</p>
+                                    <a target="_blank" rel="noopener noreferrer" href="./08-player-music/src/index.html">Explorar projeto ↗</a>
+                                    <details>
+                                        <summary>Ver evolução</summary>
+                                        <ul>
+                                            <li>Criando um Music Player</li>
+                                            <li>Responsividade para telas menores</li>
+                                            <li>Efeito glow nos botões</li>
+                                            <li>Adicionando playlist</li>
+                                            <li>Estado ativo e alinhamento da faixa</li>
+                                            <li>Responsividade para telas maiores</li>
+                                        </ul>
+                                    </details>
+                                </div>
+                            </article>
+                            <article class="card">
+                                <div class="card-imagem">
+                                    <img src="./images/images_home/landing-page-gamer.png" alt="Landing page gamer">
+                                    <span class="card-numero">09</span>
+                                </div>
+                                <div class="card-conteudo">
+                                    <span class="card-categoria">HTML / CSS</span>
+                                    <h3>Landing Page Gamer</h3>
+                                    <p>Página gamer com lançamentos e área VIP.</p>
+                                    <a target="_blank" rel="noopener noreferrer" href="./09-landing-page-gamer/src/index.html">Explorar projeto ↗</a>
+                                    <details>
+                                        <summary>Ver evolução</summary>
+                                        <ul>
+                                            <li>Criando uma landing page gamer</li>
+                                            <li>Seção de lançamentos</li>
+                                            <li>Inscrição VIP</li>
+                                            <li>Footer de contatos</li>
+                                            <li>Ajustes de fundo</li>
+                                            <li>Responsividade</li>
+                                            <li>Efeitos nos cards</li>
+                                        </ul>
+                                    </details>
+                                </div>
+                            </article>
+                            <article class="card">
+                                <div class="card-imagem">
+                                    <img src="./images/images_home/cafeteria-artesanal.png" alt="Cafeteria artesanal">
+                                    <span class="card-numero">10</span>
+                                </div>
+                                <div class="card-conteudo">
+                                    <span class="card-categoria">HTML / CSS</span>
+                                    <h3>Cafeteria Artesanal</h3>
+                                    <p>Uma página dedicada a uma cafeteria.</p>
+                                    <a target="_blank" rel="noopener noreferrer" href="./10-coffee-shop/src/index.html">Explorar projeto ↗</a>
+                                    <details>
+                                        <summary>Ver evolução</summary>
+                                        <ul>
+                                            <li>Criando a landing page</li>
+                                            <li>Seção de cafés</li>
+                                            <li>Bebidas geladas</li>
+                                            <li>Salgados e brunch</li>
+                                            <li>Doces e sobremesas</li>
+                                            <li>Botões e cards do cardápio</li>
+                                            <li>Mapa e localização</li>
+                                            <li>Footer</li>
+                                            <li>Fundo e sombras</li>
+                                            <li>Responsividade</li>
+                                        </ul>
+                                    </details>
+                                </div>
+                            </article>
+                            <article class="card">
+                                <div class="card-imagem">
+                                    <img src="./images/images_home/calculadora.png" alt="Calculadora">
+                                    <span class="card-numero">11</span>
+                                </div>
+                                <div class="card-conteudo">
+                                    <span class="card-categoria">HTML / CSS / JS</span>
+                                    <h3>Calculadora</h3>
+                                    <p>Operações matemáticas e histórico de contas.</p>
+                                    <a target="_blank" rel="noopener noreferrer" href="./11-calculadora/src/index.html">Explorar projeto ↗</a>
+                                    <details>
+                                        <summary>Ver evolução</summary>
+                                        <ul>
+                                            <li>Construindo a calculadora</li>
+                                            <li>Histórico das contas</li>
+                                            <li>Visual e responsividade</li>
+                                            <li>Botão de apagar</li>
+                                            <li>Efeitos de gradiente</li>
+                                        </ul>
+                                    </details>
+                                </div>
+                            </article>
+                            <article class="card">
+                                <div class="card-imagem">
+                                    <img src="./images/images_home/sistema-login.png" alt="Sistema de login">
+                                    <span class="card-numero">12</span>
+                                </div>
+                                <div class="card-conteudo">
+                                    <span class="card-categoria">HTML / CSS / PHP / SQL</span>
+                                    <h3>Sistema de Login</h3>
+                                    <p>Autenticação, registro e gerenciamento de conta.</p>
+                                    <a target="_blank" rel="noopener noreferrer" href="http://sistema-login.gamer.gd/login.php">Explorar projeto ↗</a>
+                                    <details>
+                                        <summary>Ver evolução</summary>
+                                        <ul>
+                                            <li>Criando o sistema de login</li>
+                                            <li>Atualizando o link de acesso</li>
+                                            <li>Estilização das telas</li>
+                                            <li>Responsividade</li>
+                                            <li>Exclusão de conta</li>
+                                        </ul>
+                                    </details>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+                    <footer class="footer">
+                        <span>© 2026 — PRÁTICA WEB</span>
+                        <span>FEITO COM CURIOSIDADE E CÓDIGO.</span>
+                        <div class="footer-links">
+                            <a href="mailto:joaopribeiro.dev@gmail.com">Email ↗</a>
+                            <a target="_blank" rel="noopener noreferrer" href="https://wa.me/5511948643285">WhatsApp ↗</a>
+                        </div>
+                    </footer>
+
+                </div>
+            </section>
+
+            <!-- =================================
+                 TELA SOBRE MIM
+            ================================== -->
+
+            <section class="tela tela-sobre" id="sobre">
+                <header class="header">
+                    <a class="logo" href="#sobre" aria-label="Prática Web">
+                        <span class="logo-icon">✦</span>
+                        <span>PRÁTICA<span class="verde">WEB</span></span>
+                    </a>
+                    <div class="header-status">
+                        <span class="status-dot"></span>
+                        SYSTEM ONLINE
+                    </div>
+                    <nav class="navegacao">
+                        <button class="btn-nav" data-tela="projetos">Projetos</button>
+                        <button class="btn-nav ativo" data-tela="sobre">Sobre Mim</button>
+                    </nav>
+                </header>
+                <div class="conteudo">
+                    <section class="sobre-hero">
+                        <span class="eyebrow">04 / IDENTIFICAÇÃO DO DESENVOLVEDOR</span>
+                        <h1>Além do <span class="verde">código.</span></h1>
+                        <p>
+                            Conheça um pouco da pessoa por trás dos projetos,
+                            da curiosidade que iniciou tudo aos próximos desafios.
+                        </p>
+                    </section>
+                    <section class="perfil">
+                        <div class="perfil-avatar">
+                            <div class="avatar-placeholder">JP</div>
+                            <span class="avatar-status"><span class="status-dot"></span> DISPONÍVEL PARA APRENDER</span>
+                        </div>
+                        <div class="perfil-info">
+                            <span class="eyebrow">DEVELOPER PROFILE</span>
+                            <h2>João Pedro</h2>
+                            <p class="perfil-cargo">Estudante de Tecnologia em Sistemas para Internet</p>
+                            <div class="perfil-dados">
+                                <div>
+                                    <span>FORMAÇÃO</span>
+                                    <strong>TSI — 2º semestre</strong>
+                                </div>
+                                <div>
+                                    <span>INSTITUIÇÃO</span>
+                                    <strong>Centro Universitário Senac</strong>
+                                </div>
+                                <div>
+                                    <span>ÁREA DE INTERESSE</span>
+                                    <strong>Desenvolvimento Web</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="secao historia">
+                        <div class="secao-titulo">
+                            <div>
+                                <span class="eyebrow">05 / ORIGEM</span>
+                                <h2>Como tudo começou</h2>
+                            </div>
+                            <span class="secao-numero">MY STORY</span>
+                        </div>
+                        <div class="historia-card">
+                            <span class="historia-marca">“</span>
+                            <p>
+                                Minha história com a programação começou no 8º ano,
+                                quando vi meu irmão, que já estava na faculdade,
+                                trabalhando com código. Naquele momento, pensei:
+                                Foi ali que surgiu minha curiosidade pela área.
+                            </p>
+                            <p>
+                                Inicialmente, minha intenção era cursar Análise e
+                                Desenvolvimento de Sistemas (ADS), assim como meu
+                                irmão. Como as vagas estavam lotadas, acabei entrando
+                                em Tecnologia em Sistemas para Internet (TSI).
+                                O que começou como uma alternativa acabou se tornando
+                                uma escolha com a qual me identifico cada vez mais.
+                            </p>
+                            <p>
+                                Hoje, estou no 2º semestre e gosto especialmente
+                                de aprender Front-end e Back-end, entendendo como
+                                essas partes se conectam para construir aplicações
+                                completas.
+                            </p>
+                            <p>
+                                Ainda tenho muito a aprender, mas é justamente isso
+                                que me motiva: explorar tecnologias, desenvolver
+                                projetos próprios e descobrir até onde posso chegar
+                                com a programação.
+                            </p>
+                        </div>
+                    </section>
+                    <section class="secao">
+                        <div class="secao-titulo">
+                            <div>
+                                <span class="eyebrow">06 / APRENDIZADO</span>
+                                <h2>O que estou explorando</h2>
+                            </div>
+                            <span class="secao-numero">LEARNING PATH</span>
+                        </div>
+                        <div class="aprendizado-grid">
+                            <article class="aprendizado-card">
+                                <span class="aprendizado-numero">01</span>
+                                <h3>Front-end</h3>
+                                <p>Construção de interfaces, experiências visuais e interações para a web.</p>
+                                <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                            </article>
+                            <article class="aprendizado-card">
+                                <span class="aprendizado-numero">02</span>
+                                <h3>Back-end</h3>
+                                <p>Lógica, processamento de informações e funcionamento das aplicações.</p>
+                                <div class="tags"><span>PHP</span><span>SQL</span></div>
+                            </article>
+                            <article class="aprendizado-card">
+                                <span class="aprendizado-numero">03</span>
+                                <h3>Projetos próprios</h3>
+                                <p>Transformar ideias em projetos funcionais e aprender durante o processo.</p>
+                                <div class="tags"><span>Prática</span><span>Experimentação</span></div>
+                            </article>
+                        </div>
+                    </section>
+                    <section class="objetivo">
+                        <span class="eyebrow">07 / PRÓXIMO DESTINO</span>
+                        <h2>O próximo nível ainda está sendo construído.</h2>
+                        <p>
+                            Meu objetivo é continuar evoluindo como desenvolvedor
+                            web, ampliar meu conhecimento em Front-end e Back-end
+                            e criar aplicações cada vez mais completas.
+                        </p>
+                        <span class="objetivo-final">CONTINUE EXPLORANDO. CONTINUE CRIANDO.</span>
+                    </section>
+                    <footer class="footer">
+                        <span>© 2026 — PRÁTICA WEB</span>
+                        <span>O FIM DE UMA ETAPA É O COMEÇO DE OUTRA.</span>
+                        <div class="footer-links">
+                            <a href="mailto:joaopribeiro.dev@gmail.com">Email ↗</a>
+                            <a target="_blank" rel="noopener noreferrer" href="https://wa.me/5511948643285">WhatsApp ↗</a>
+                        </div>
+                    </footer>
+                </div>
+            </section>
+        </main>
     </div>
-    <section class="group-cards">
-        <div class="card">
-            <img src="./images/images_home/card-produto.png" alt="card de produto">
-            <a target="_blank" href="./01-card-produto/src/index.html">Card de Produto</a>
-            <details>
-                <summary>Detalhe</summary>
-                <ul>
-                    <li>1: Criando card de produto</li>
-                </ul>
-            </details>
-        </div>
-        <div class="card">
-            <img src="./images/images_home/cartao-perfil-social.png" alt="cartão de perfil social">
-            <a target="_blank" href="./02-cartao-perfil-social/src/index.html">Cartão de Perfil Social</a>
-            <details>
-                <summary>Detalhe</summary>
-                <ul>
-                    <li>1: Criando cartão de perfil social</li>
-                </ul>
-            </details>
-        </div>
-        <div class="card">
-            <img src="./images/images_home/tela-login.png" alt="tela de login">
-            <a target="_blank" href="./03-tela-login/src/index.html">Tela de Login</a>
-            <details>
-                <summary>Detalhe</summary>
-                <ul>
-                    <li>1: Criando uma tela de login</li>
-                </ul>
-            </details>
-        </div>
-        <div class="card">
-            <img src="./images/images_home/tabela-preco.png" alt="tabela preços">
-            <a target="_blank" href="./04-tabela-preco/src/index.html">Tabela de Preços Gamer</a>
-            <details>
-                <summary>Detalhe</summary>
-                <ul>
-                    <li>1: Criando uma tabela de preços gamer</li>
-                </ul>
-            </details>
-        </div>
-        <div class="card">
-            <img src="./images/images_home/landing-page.png" alt="landing page">
-            <a target="_blank" href="./05-curso-linguagens/src/index.html">Landing Page</a>
-            <details>
-                <summary>Detalhe</summary>
-                <ul>
-                    <li>1: Criando uma landing page</li>
-                </ul>
-            </details>
-        </div>
-        <div class="card">
-            <img src="./images/images_home/servico-gaming.png" alt="serviço gaming">
-            <a target="_blank" href="./06-servico-gaming/src/index.html">Serviços Cloud Gaming</a>
-            <details>
-                <summary>Detalhe</summary>
-                <ul>
-                    <li>1: Criando uma página de serviços cloud gaming</li>
-                    <li>2: adicionando uma galeria de jogos</li>
-                    <li>3: adicionando um FAQ para a página</li>
-                    <li>4: adicionando um header fixo e responsividade para celular</li>
-                    <li>5: Vortex Gaming concluin­do com Glassmorphism e polimento de botões</li>
-                </ul>
-            </details>
-        </div>
-        <div class="card">
-            <img src="./images/images_home/dashboard-gamer.png" alt="dashboard gamer">
-            <a target="_blank" href="./07-dashboard-gamer/src/index.html">Dashboard Gamer</a>
-            <details>
-                <summary>Detalhe</summary>
-                <ul>
-                    <li>1: Criando um dashboard gamer</li>
-                    <li>2: finalizando o Dashboard Gamer com biblioteca, perfil e configurações</li>
-                </ul>
-            </details>
-        </div>
-        <div class="card">
-            <img src="./images/images_home/player-music.png" alt="player music">
-            <a target="_blank" href="./08-player-music/src/index.html">Music Player</a>
-            <details>
-                <summary>Detalhe</summary>
-                <ul>
-                    <li>1: Criando um Music Player</li>
-                    <li>2: ajustando a responsividade para telas menores</li>
-                    <li>3: adicionando efeito de glow no hover dos botões</li>
-                    <li>4: adicionando uma playlist para o Music Player</li>
-                    <li>5: adiciona estado ativo e alinha faixa principal com a playlist</li>
-                    <li>6: finalizando projeto com responsividade para telas maiores</li>
-                </ul>
-            </details>
-        </div>
-        <div class="card">
-            <img src="./images/images_home/landing-page-gamer.png" alt="landing page gamer">
-            <a target="_blank" href="./09-landing-page-gamer/src/index.html">Landing Page Gamer</a>
-            <details>
-                <summary>Detalhe</summary>
-                <ul>
-                    <li>1: Criando uma landing page gamer</li>
-                    <li>2: sendo adicionada a seção de lançamentos dos jogos</li>
-                    <li>3: fazendo a seção de incrição VIP para os clientes</li>
-                    <li>4: estruturado footer de contatos</li>
-                    <li>5: ajustando o fundo das seções</li>
-                    <li>6: implementando responsividade para telas menores</li>
-                    <li>7: adicionando efeitos nos cards</li>
-                </ul>
-            </details>
-        </div>
-        <div class="card">
-            <img src="./images/images_home/cafeteria-artesanal.png" alt="cafeteria artesanal">
-            <a target="_blank" href="./10-coffee-shop/src/index.html">Cafeteria Artesanal</a>
-            <details>
-                <summary>Detalhe</summary>
-                <ul>
-                    <li>1: Criando uma landing page de uma cafeteria artesanal</li>
-                    <li>2: cria a seção Cardápio e estruturando seção de cafés</li>
-                    <li>3: estruturando seção de bebidas geladas</li>
-                    <li>4: estruturando seção de salgados e brunch</li>
-                    <li>5: estruturando seção de doces e sobremesas</li>
-                    <li>6: adicionando buttons e estilizando cards do cardápio</li>
-                    <li>7: adiciona seção de mapa e descrição de localização</li>
-                    <li>8: footer adicionado e finalizado</li>
-                    <li>9: estilizando fundo e sombras</li>
-                    <li>10: feita a responsividade da Cafeteria Artesanal</li>
-                </ul>
-            </details>
-        </div>
-        <div class="card">
-            <img src="./images/images_home/calculadora.png" alt="imagem da calculadora">
-            <a target="_blank" href="./11-calculadora/src/index.html">Calculadora</a>
-            <details>
-                <summary>Detalhe</summary>
-                <ul>
-                    <li>1: fazendo uma calculadora</li>
-                    <li>2: adicionando um histórico das contas</li>
-                    <li>3: ajustando visual e fazendo responsividade</li>
-                    <li>4: adicionando o botão de apagar</li>
-                    <li>5: adicionado efeitos de gradiente</li>
-                </ul>
-            </details>
-        </div>
-        <div class="card">
-            <img src="./images/images_home/sistema-login.png" alt="imagem do sistema de login">
-            <a target="_blank" href="http://sistema-login.gamer.gd/login.php">Sistema de Login</a>
-            <details>
-                <summary>Detalhe</summary>
-                <ul>
-                    <li>1: criando um sistema de login</li>
-                    <li>2: link atualizado para acesso do sistema de login</li>
-                    <li>3: finaliza estilização das telas de login, registro e painel</li>
-                    <li>4: fazendo responsividade para telas menores</li>
-                    <li>5: adiciona funcionalidade de exclusão de conta</li>
-                </ul>
-            </details>
-        </div>
-    </section>
-    <hr>
-    <footer>
-        <nav>
-            <a href="mailto:joaopribeiro.dev@gmail.com">Email: joaopribeiro.dev@gmail.com</a>
-            <a target="_blank" href="https://wa.me/5511948643285">WhatsApp: +55 (11) 94864-3285</a>
-        </nav>
-    </footer>
-    <script src="./home.js"></script>
 </body>
 </html>
