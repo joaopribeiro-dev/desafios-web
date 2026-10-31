@@ -60,6 +60,7 @@ window.addEventListener('resize', ()=> {
 
 let astroProgress = 0;
 let blackHoleZ = 1;
+let neptuneZ = 1;
 let uranusZ = 1;
 let saturnZ = 1;
 let jupiterZ = 1;
@@ -103,6 +104,9 @@ function cosmos(frameScale) {
             uranusZ -= 0.015 * frameScale;
         }
         if (astroProgress >= 1) {
+            neptuneZ -= 0.015 * frameScale;
+        }
+        if (astroProgress >= 1.125) {
             blackHoleZ -= 0.015 * frameScale;
         }
     }
@@ -115,7 +119,7 @@ function cosmos(frameScale) {
     let blackHoleY = centerY + baseBhY * kBh;
     let blackHoleRadius = 100 * kBh;
 
-    if (astroProgress >= 1 && blackHoleZ > 0.05) {
+    if (astroProgress >= 1.125 && blackHoleZ > 0.05) {
         const orbitalTime = time % (Math.PI * 2);
 
         ctx.save();
@@ -196,7 +200,95 @@ function cosmos(frameScale) {
         ctx.restore();
     }
 
-    let baseUranusX = (canvas.width * 0.3) - centerX;
+    let baseNeptuneX = (canvas.width * 0.4) - centerX;
+    let baseNeptuneY = (canvas.height * 0.6) - centerY;
+
+    let neptuneK = 1 / Math.max(0.01, neptuneZ);
+    let neptuneX = centerX + baseNeptuneX * neptuneK;
+    let neptuneY = centerY + baseNeptuneY * neptuneK;
+    let neptuneRadius = 23 * neptuneK;
+
+    if (astroProgress >= 1 && neptuneZ > 0.05) {
+        const orbitalTime = time % (Math.PI * 2);
+
+        ctx.save();
+        ctx.translate(neptuneX, neptuneY);
+        ctx.rotate(30 * Math.PI / 260);
+
+        const numLinhas = 40;
+
+        for (let i = 0; i < numLinhas; i++) {
+            let r = (neptuneRadius * 1.3) + (i * 0.32 * neptuneK) + Math.sin(orbitalTime * 2 + i) * 0.4;
+            let orbitalSpeed = 1.2 / Math.max(1, r) / 40;
+
+            let startAngle = (orbitalTime * orbitalSpeed) + (i * 0.25);
+            let arcLength = 1.5 + Math.sin(orbitalTime + i) * 0.8;
+            let endAngle = startAngle + arcLength;
+
+            let alpha = (1 - (i / numLinhas)) * 0.45;
+            let color = i < 8 ? `rgba(133, 190, 202, ${alpha * 0.15})`:
+                        i < 16 ? `rgba(91, 151, 177, ${alpha * 0.20})`:
+                        i < 24 ? `rgba(65, 112, 151, ${alpha * 0.25})`:
+                        i < 32 ? `rgba(160, 177, 181, ${alpha * 0.12})`:
+                        `rgba(49, 83, 119, ${alpha * 0.18})`
+
+                        ctx.strokeStyle = color;
+                        ctx.lineWidth = Math.max(0.5, (1.8 + (Math.sin(orbitalTime + 1) * 0.4)) * neptuneK);
+                        ctx.beginPath();
+                        ctx.ellipse(0, 0, Math.max(0, r * 2.5), Math.max(0, r * 0.35), 0, Math.PI, Math.PI * 2);
+                        ctx.stroke();
+        }
+        ctx.restore();
+        
+        let neptuneGlow = ctx.createRadialGradient(neptuneX - neptuneRadius * 0.35, neptuneY - neptuneRadius * 0.35, 0, neptuneX, neptuneY, neptuneRadius);
+        neptuneGlow.addColorStop(0, "#8AD8F0");
+        neptuneGlow.addColorStop(0.45, "#398FCB");
+        neptuneGlow.addColorStop(0.8, "#17518F");
+        neptuneGlow.addColorStop(1, "#102F68");
+
+        ctx.fillStyle = neptuneGlow;
+        ctx.beginPath();
+        ctx.arc(neptuneX, neptuneY, neptuneRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.save();
+
+        ctx.strokeStyle = "#123D70";
+        ctx.beginPath();
+        ctx.arc(neptuneX, neptuneY, neptuneRadius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.restore();
+
+        ctx.save();
+        ctx.translate(neptuneX, neptuneY);
+        ctx.rotate(30 * Math.PI / 260);
+
+        for (let i = 0; i < numLinhas; i++) {
+            let r = (neptuneRadius * 1.3) + (i * 0.32 * neptuneK) + Math.sin(orbitalTime * 2 + i) * 0.4;
+            let orbitalSpeed = 1.2 / Math.max(1, r) / 40;
+
+            let startAngle = (orbitalTime * orbitalSpeed) + (i * 0.25);
+            let arcLength = 1.5 + Math.sin(orbitalTime + i) * 0.8;
+            let endAngle = startAngle + arcLength;
+
+            let alpha = (1 - (i / numLinhas)) * 0.45;
+            let color = i < 8 ? `rgba(133, 190, 202, ${alpha * 0.15})`:
+                        i < 16 ? `rgba(91, 151, 177, ${alpha * 0.20})`:
+                        i < 24 ? `rgba(65, 112, 151, ${alpha * 0.25})`:
+                        i < 32 ? `rgba(160, 177, 181, ${alpha * 0.12})`:
+                        `rgba(49, 83, 119, ${alpha * 0.18})`
+
+                        ctx.strokeStyle = color;
+                        ctx.lineWidth = Math.max(0.5, (1.8 + (Math.sin(orbitalTime + 1) * 0.4)) * neptuneK);
+                        ctx.beginPath();
+                        ctx.ellipse(0, 0, Math.max(0, r * 2.5), Math.max(0, r * 0.35), 0, 0, Math.PI);
+                        ctx.stroke();
+        }
+        ctx.restore();
+    }
+
+    let baseUranusX = (canvas.width * 0.6) - centerX;
     let baseUranusY = (canvas.height * 0.45) - centerY;
 
     let uranusK = 1 / Math.max(0.01, uranusZ);
@@ -209,7 +301,7 @@ function cosmos(frameScale) {
 
         ctx.save();
         ctx.translate(uranusX, uranusY);
-        ctx.rotate(30 * Math.PI / 90);
+        ctx.rotate(30 * Math.PI / -90);
 
         const numLinhas = 75;
 
@@ -257,7 +349,7 @@ function cosmos(frameScale) {
 
         ctx.save();
         ctx.translate(uranusX, uranusY);
-        ctx.rotate(30 * Math.PI / 90);
+        ctx.rotate(30 * Math.PI / -90);
 
         for (let i = 0; i < numLinhas; i++) {
             let r = (uranusRadius * 1.3) + (i * 0.32 * uranusK) + Math.sin(orbitalTime * 2 + i) * 0.4;
@@ -1111,13 +1203,13 @@ form.addEventListener('submit', (event)=> {
 
         const velocidade = setInterval(() => {
             speed += 2;
-            astroProgress = Math.min(astroProgress + 0.01, 1);
+            astroProgress = Math.min(astroProgress + 0.01, 1.125);
 
-            if (speed >= 200) {
-                fadeOpacity = (speed - 200) / 25;
+            if (speed >= 230) {
+                fadeOpacity = (speed - 230) / 25;
             }
 
-            if (speed >= 250) {
+            if (speed >= 280) {
                 fadeOpacity = 1;
                 clearInterval(velocidade);
 
