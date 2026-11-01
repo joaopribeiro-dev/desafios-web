@@ -38,26 +38,29 @@ try {
     # Lê o HTML e verifica a estrutura antes de alterar os dados.
     $html = Get-Content $homeFile -Raw -Encoding UTF8
 
-    $pattern = '(?s)(<div\s+class="progresso">.*?<p>\s*Dia\s+\d+\s*</p>.*?<p>\s*Dia\s+)\d+(\s*</p>)'
+    $pattern = '(?s)(<span class="secao-numero">DAY )\d+(</span>.*?<h3>)\d+( dias de evolução</h3>.*?<span class="progresso-valor">DIA )\d+(</span>)'
 
-    $regex = [regex]::new($pattern)
+$regex = [regex]::new($pattern)
 
-    if (-not $regex.IsMatch($html)) {
-        throw "Não encontrei a estrutura esperada da barra de progresso em home.html."
-    }
+if (-not $regex.IsMatch($html)) {
+    throw "Não encontrei a estrutura esperada do progresso em home.html."
+}
 
-    # Calcula o próximo dia.
-    $novoDia = [int]$data.diaAtual + 1
+$novoDia = [int]$data.diaAtual + 1
 
-    $evaluator = [System.Text.RegularExpressions.MatchEvaluator]{
-        param($match)
+$evaluator = [System.Text.RegularExpressions.MatchEvaluator]{
+    param($match)
 
-        return $match.Groups[1].Value +
-            $novoDia +
-            $match.Groups[2].Value
-    }
+    return $match.Groups[1].Value +
+        $novoDia +
+        $match.Groups[2].Value +
+        $novoDia +
+        $match.Groups[3].Value +
+        $novoDia +
+        $match.Groups[4].Value
+}
 
-    $updatedHtml = $regex.Replace($html, $evaluator, 1)
+$updatedHtml = $regex.Replace($html, $evaluator, 1)
 
     # Atualiza os dados de progresso.
     $data.diaAtual = $novoDia

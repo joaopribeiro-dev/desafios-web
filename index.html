@@ -6,10 +6,19 @@
     <title>Space</title>
     <link rel="stylesheet" href="style.css">
 
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"
+            }
+        }
+    </script>
+
     <script src="./analytics-consent.js" defer></script>
 </head>
 <body>
     <canvas id="spaceCanvas"></canvas>
+    <div id="universe3D"></div>
     <div class="central">
         <h1>ACESSO AO SISTEMA</h1>
         <p>Digite "Hello World!"</p>
@@ -20,6 +29,11 @@
         <button id="skipAnimation">Skip Animation</button>
         <small id="errorMessage"></small>
     </div>
-    <script src="./script.js"></script>
+    <div id="cameraInfo">
+        <p>X<span id="cameraX">0</span></p>
+        <p>Y<span id="cameraY">0</span></p>
+        <p>Z<span id="cameraZ">0</span></p>
+    </div>
+    <script type="module" src="./script.js"></script>
 </body>
 </html>
