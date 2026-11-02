@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space</title>
+    <link rel="stylesheet" href="./style.css">
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="spaceCanvas"></canvas>
+    <div id="universe3D"></div>
+    <div class="central">
+        <h1>ACESSO AO SISTEMA</h1>
+        <p>Digite "Hello World!"</p>
+        <form action="" id="acessForm">
+            <input type="text" id="commandInput" autocomplete="off" autofocus>
+            <button type="submit">Entrar</button>
+        </form>
+        <small id="errorMessage"></small>
+    </div>
+    <div id="cameraInfo">
+        <p>X<span id="cameraX">0</span></p>
+        <p>Y<span id="cameraY">0</span></p>
+        <p>Z<span id="cameraZ">0</span></p>
+    </div>
+    <script type="module" src="./script.js"></script>
+</body>
+</html>
