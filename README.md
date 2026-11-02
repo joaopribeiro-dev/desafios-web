@@ -7,26 +7,30 @@
 </p>
 
 <p align="center">
-  <b>Repositório dedicado à prática contínua de desenvolvimento web, projetos interativos em Canvas e desafios de lógica utilizando o ecossistema Web e Backend.</b>
+  <b>Repositório dedicado à prática contínua de desenvolvimento web, projetos interativos em Canvas, experiências com gráficos 3D e desafios de lógica utilizando o ecossistema Web e Backend.</b>
 </p>
 
 ---
 
 ## 🚀 Destaque do Projeto: Tela Espacial (*Sci-Fi Portal*)
 
-O projeto principal deste repositório conta com uma **tela de acesso imersiva** construída do zero utilizando **HTML5 Canvas API**, simulação matemática de corpos celestes e transição dinâmica de páginas.
+O projeto principal deste repositório conta com uma **tela de acesso imersiva** construída do zero, utilizando **HTML5 Canvas API**, **Three.js**, simulação matemática de corpos celestes e transições dinâmicas.
 
 ### 🌟 Funcionalidades & Efeitos Visuais
 
 - **Efeito Warp Speed & Câmera 3D**: aceleração dinâmica das estrelas e avanço de perspectiva nos eixos X, Y e Z (profundidade), com *fade-out* ao autenticar.
 - **Sistema Espacial (2D)**:
-  - **Sol**: renderizado com erupções solares (*flares*) e pulso dinâmico via trigonometria (`Math.sin` / `Math.cos`).
   - **Planetas Intermediários**: sistema planetário alinhado no horizonte cósmico.
   - **Buraco Negro**: simulação de disco de acreção inclinado em $30^\circ$, composto por 200 órbitas de plasma, com efeito visual de lente gravitacional e aparência tridimensional, incluindo a divisão dos arcos frontais e traseiros.
+- **Sistema Espacial (3D) --- Renderização 3D com Three.js**:
+  - **Sol**: primeira implementação de um corpo celeste em 3D, utilizando geometria, materiais, iluminação e renderização tridimensional.
+  - **Expansão do Sistema 3D**: estrutura preparada para futuras implementações dos planetas e do buraco negro.
 - **Nebulosas Dinâmicas**: nuvens cósmicas geradas por gradientes radiais em movimento contínuo.
 - **Scroll Reveal**: animação em cascata (*IntersectionObserver*) para exibição fluida dos cards no `home.html`.
 
-*Em breve: animações em 3D para o Sol, os planetas e o buraco negro, além de novas interações.*
+### 🔭 Próximos passos
+
+Expansão das animações 3D para os planetas e o buraco negro, além de novas interações e aprimoramentos visuais.
 
 ---
 
@@ -43,9 +47,10 @@ O projeto principal deste repositório conta com uma **tela de acesso imersiva**
 
 - **HTML5**: estruturação semântica das páginas e utilização do elemento Canvas para gráficos e efeitos visuais.
 - **CSS3**: estilização moderna, variáveis, efeitos *glassmorphism* e animações.
-- **JavaScript (ES6+)**: manipulação da Canvas API, trigonometria para efeitos espaciais, projeção no eixo Z e API `IntersectionObserver`.
+- **JavaScript (ES6+)**: manipulação da Canvas API, trigonometria para efeitos espaciais, projeção no eixo Z, API `IntersectionObserver` e integração com Three.js para renderização 3D.
 - **PHP**: desenvolvimento de funcionalidades de backend, utilizando recursos como PDO, *Prepared Statements* e controle de sessões.
 - **MySQL / SQL**: modelagem, consulta e persistência de dados em bancos de dados relacionais.
+- **Three.js**: biblioteca JavaScript utilizada na criação e renderização de objetos tridimensionais, com geometria, materiais e iluminação.
 
 ---
 
