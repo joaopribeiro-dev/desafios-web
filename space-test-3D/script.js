@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 import { createSun } from '../scripts-astros/sun.js';
 import { createMercury } from '../scripts-astros/mercury.js';
+import { createVenus } from '../scripts-astros/venus.js';
 
 // ==================================================
 // CONFIGURAÇÃO INICIAL
@@ -14,6 +15,15 @@ const cameraY = document.getElementById("cameraY");
 const cameraZ = document.getElementById("cameraZ");
 
 const scene = new THREE.Scene();
+
+// // 1. Luz ambiente fraca (apenas para o lado escuro dos planetas não ficar 100% invisível)
+// const ambientLight = new THREE.AmbientLight(0xffffff, 0.15);
+// scene.add(ambientLight);
+
+// // 2. Luz vindo de DENTRO do Sol (mesma posição: 0, -1.5, -10)
+// const sunLight = new THREE.PointLight(0xffffff, 3, 300);
+// sunLight.position.set(0, -1.5, -10); 
+// scene.add(sunLight);
 
 const light = new THREE.PointLight(0xffffff, 3);
 light.position.set(3, 3, 5);
@@ -28,8 +38,11 @@ const camera = new THREE.PerspectiveCamera(
 
 camera.position.set(0, 0, 5);
 
+scene.add(camera);
+
 // Luz da câmera
-const cameraLight = new THREE.PointLight(0xffffff, 0, 100);
+const cameraLight = new THREE.PointLight(0xffffff, 5, 300);
+cameraLight.decay = 1.5;
 camera.add(cameraLight);
 
 // ==================================================
@@ -56,16 +69,21 @@ sun.group.position.set(0, -1.5, -10);
 
 const mercury = createMercury(scene);
 
-mercury.group.position.set(-3.5, -0.5, -30);
+mercury.group.position.set(-2.5, -0.5, -30);
+
+const venus = createVenus(scene);
+
+venus.group.position.set(2.5, 1, -60);
 
 // ==================================================
 // MOVIMENTAÇÃO DOS ASTROS
 // ==================================================
 
 let sunApproach = 0;
-let startSunApproach = false;
 
+let startSunApproach = false;
 let startMercuryApproach = false;
+let startVenusApproach = false;
 
 // ==================================================
 // ANIMAÇÃO PRINCIPAL
@@ -84,20 +102,16 @@ function animate3D() {
     // Aproximação de Mercúrio
     if (startMercuryApproach && mercury.group.position.z < 5) {
         mercury.group.position.z += 0.2;
+    }
 
-        const distance = mercury.group.position.z;
-
-        // Iluminação gradual
-        cameraLight.intensity = THREE.MathUtils.clamp(
-            (distance + 15) / 10,
-            0,
-            8
-        );
+    if (startVenusApproach && venus.group.position.z < 10) {
+        venus.group.position.z += 0.25;
     }
 
     // Atualização dos astros
     sun.update();
     mercury.update();
+    venus.update();
 
     // Atualização das coordenadas da câmera
     cameraX.textContent = camera.position.x.toFixed(2);
@@ -280,6 +294,7 @@ form.addEventListener('submit', (event)=> {
 
         startSunApproach = true;
         startMercuryApproach = true;
+        startVenusApproach = true;
 
         central.style.pointerEvents = "none";
         central.inert = true;
