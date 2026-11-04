@@ -16,6 +16,10 @@ const cameraZ = document.getElementById("cameraZ");
 
 const scene = new THREE.Scene();
 
+// ==================================================
+// AMBIENTE COM LUZ PARA TESTS
+// ==================================================
+
 // // 1. Luz ambiente fraca (apenas para o lado escuro dos planetas não ficar 100% invisível)
 // const ambientLight = new THREE.AmbientLight(0xffffff, 0.15);
 // scene.add(ambientLight);
