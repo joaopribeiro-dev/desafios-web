@@ -1,8 +1,11 @@
 import * as THREE from 'three';
 
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
 import { createSun } from '../scripts-astros/sun.js';
 import { createMercury } from '../scripts-astros/mercury.js';
 import { createVenus } from '../scripts-astros/venus.js';
+import { createEarth } from '../scripts-astros/earth.js';
 
 // ==================================================
 // CONFIGURAÇÃO INICIAL
@@ -29,9 +32,13 @@ const scene = new THREE.Scene();
 // sunLight.position.set(0, -1.5, -10); 
 // scene.add(sunLight);
 
-const light = new THREE.PointLight(0xffffff, 3);
-light.position.set(3, 3, 5);
-scene.add(light);
+// const light = new THREE.PointLight(0xffffff, 3);
+// light.position.set(3, 3, 5);
+// scene.add(light);
+
+// ==================================================
+// CONFIGURAÇÃO DA CAMERA
+// ==================================================
 
 const camera = new THREE.PerspectiveCamera(
     75,
@@ -64,6 +71,21 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 universe3D.appendChild(renderer.domElement);
 
 // ==================================================
+// CONTROLES DA CÂMERA: ORBITCONTROLS
+// ==================================================
+
+const controls = new OrbitControls(camera, renderer.domElement);
+
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+
+controls.enableZoom = true;
+controls.enablePan = true;
+
+controls.minDistance = 2;
+controls.maxDistance = 100;
+
+// ==================================================
 // ASTROS 3D
 // ==================================================
 
@@ -79,6 +101,10 @@ const venus = createVenus(scene);
 
 venus.group.position.set(2.5, 1, -60);
 
+const earth = createEarth(scene);
+
+earth.group.position.set(-2.5, -1, -90);
+
 // ==================================================
 // MOVIMENTAÇÃO DOS ASTROS
 // ==================================================
@@ -88,6 +114,7 @@ let sunApproach = 0;
 let startSunApproach = false;
 let startMercuryApproach = false;
 let startVenusApproach = false;
+let startEarthApproach = false;
 
 // ==================================================
 // ANIMAÇÃO PRINCIPAL
@@ -108,19 +135,28 @@ function animate3D() {
         mercury.group.position.z += 0.2;
     }
 
+    // Aproximação de Vênus
     if (startVenusApproach && venus.group.position.z < 10) {
         venus.group.position.z += 0.25;
+    }
+
+    // Aproximação da Terra
+    if (startEarthApproach && earth.group.position.z < 15) {
+        earth.group.position.z += 0.3;
     }
 
     // Atualização dos astros
     sun.update();
     mercury.update();
     venus.update();
+    earth.update();
 
     // Atualização das coordenadas da câmera
     cameraX.textContent = camera.position.x.toFixed(2);
     cameraY.textContent = camera.position.y.toFixed(2);
     cameraZ.textContent = camera.position.z.toFixed(2);
+
+    controls.update();
 
     renderer.render(scene, camera);
 }
@@ -299,6 +335,7 @@ form.addEventListener('submit', (event)=> {
         startSunApproach = true;
         startMercuryApproach = true;
         startVenusApproach = true;
+        startEarthApproach = true;
 
         central.style.pointerEvents = "none";
         central.inert = true;
