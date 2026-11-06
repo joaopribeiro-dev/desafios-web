@@ -8,6 +8,8 @@ export function createMercury(scene) {
     const mercuryGroup = new THREE.Group();
     scene.add(mercuryGroup);
 
+    mercuryGroup.rotation.z = THREE.MathUtils.degToRad(0.034);
+
     const geometry = new THREE.SphereGeometry(0.8, 64, 64);
 
     // ==================================================
