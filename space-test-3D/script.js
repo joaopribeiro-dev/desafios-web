@@ -6,6 +6,7 @@ import { createSun } from '../scripts-astros/sun.js';
 import { createMercury } from '../scripts-astros/mercury.js';
 import { createVenus } from '../scripts-astros/venus.js';
 import { createEarth } from '../scripts-astros/earth.js';
+import { createMars } from '../scripts-astros/mars.js';
 
 // ==================================================
 // CONFIGURAÇÃO INICIAL
@@ -105,6 +106,11 @@ const earth = createEarth(scene);
 
 earth.group.position.set(-2.5, -1, -90);
 
+const mars = createMars(scene);
+
+mars.group.position.set(2.5, -1.5, -120);
+
+
 // ==================================================
 // MOVIMENTAÇÃO DOS ASTROS
 // ==================================================
@@ -115,6 +121,7 @@ let startSunApproach = false;
 let startMercuryApproach = false;
 let startVenusApproach = false;
 let startEarthApproach = false;
+let startMarsApproach = false;
 
 // ==================================================
 // ANIMAÇÃO PRINCIPAL
@@ -145,11 +152,17 @@ function animate3D() {
         earth.group.position.z += 0.3;
     }
 
+    // Aproximação de Marte
+    if (startMarsApproach && mars.group.position.z < 20) {
+        mars.group.position.z += 0.35;
+    }
+
     // Atualização dos astros
     sun.update();
     mercury.update();
     venus.update();
     earth.update();
+    mars.update();
 
     // Atualização das coordenadas da câmera
     cameraX.textContent = camera.position.x.toFixed(2);
@@ -336,6 +349,7 @@ form.addEventListener('submit', (event)=> {
         startMercuryApproach = true;
         startVenusApproach = true;
         startEarthApproach = true;
+        startMarsApproach = true;
 
         central.style.pointerEvents = "none";
         central.inert = true;
@@ -346,11 +360,11 @@ form.addEventListener('submit', (event)=> {
         const velocidade = setInterval(() => {
             speed += 2;
 
-            if (speed >= 230) {
-                fadeOpacity = (speed - 230) / 25;
+            if (speed >= 280) {
+                fadeOpacity = (speed - 280) / 25;
             }
 
-            if (speed >= 280) {
+            if (speed >= 330) {
                 fadeOpacity = 1;
                 clearInterval(velocidade);
 
