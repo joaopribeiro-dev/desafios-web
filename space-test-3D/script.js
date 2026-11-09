@@ -6,6 +6,7 @@ import { createSun } from '../scripts-astros/sun.js';
 import { createMercury } from '../scripts-astros/mercury.js';
 import { createVenus } from '../scripts-astros/venus.js';
 import { createEarth } from '../scripts-astros/earth.js';
+import { createMoon } from '../scripts-astros/moon.js';
 import { createMars } from '../scripts-astros/mars.js';
 
 // ==================================================
@@ -106,9 +107,14 @@ const earth = createEarth(scene);
 
 earth.group.position.set(-2.5, -1, -90);
 
+const moon = createMoon(scene);
+
+moon.group.position.set(-4, 1, -91);
+
 const mars = createMars(scene);
 
 mars.group.position.set(2.5, -1.5, -120);
+
 
 
 // ==================================================
@@ -122,6 +128,7 @@ let startMercuryApproach = false;
 let startVenusApproach = false;
 let startEarthApproach = false;
 let startMarsApproach = false;
+let startMoonApproach = false;
 
 // ==================================================
 // ANIMAÇÃO PRINCIPAL
@@ -152,6 +159,11 @@ function animate3D() {
         earth.group.position.z += 0.3;
     }
 
+    // Aproximação da Lua
+    if (startEarthApproach && moon.group.position.z < 15) {
+        moon.group.position.z += 0.3;
+    }
+
     // Aproximação de Marte
     if (startMarsApproach && mars.group.position.z < 20) {
         mars.group.position.z += 0.35;
@@ -162,6 +174,7 @@ function animate3D() {
     mercury.update();
     venus.update();
     earth.update();
+    moon.update();
     mars.update();
 
     // Atualização das coordenadas da câmera
@@ -349,6 +362,7 @@ form.addEventListener('submit', (event)=> {
         startMercuryApproach = true;
         startVenusApproach = true;
         startEarthApproach = true;
+        startMoonApproach = true;
         startMarsApproach = true;
 
         central.style.pointerEvents = "none";
