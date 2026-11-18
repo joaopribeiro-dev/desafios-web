@@ -1,0 +1,168 @@
+/* ==========================================
+   PAINEL DO USUÁRIO — Loja Virtual
+========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.pagina-painel {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    background:
+        radial-gradient(circle at top left, rgba(114, 84, 199, 0.16), transparent 35%),
+        linear-gradient(135deg, #11111f, #1b1b35 55%, #252548);
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+.container-painel {
+    width: 100%;
+    max-width: 750px;
+}
+
+.logo-painel {
+    display: block;
+    margin-bottom: 25px;
+    color: #ffffff;
+    font-size: 27px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.logo-painel span {
+    color: #a78bfa;
+}
+
+.card-painel {
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
+}
+
+.cabecalho-painel {
+    padding-bottom: 25px;
+    border-bottom: 1px solid #e8e8f0;
+}
+
+.cabecalho-painel h1 {
+    margin-bottom: 12px;
+    color: #252548;
+    font-size: 29px;
+}
+
+.cabecalho-painel h1 span {
+    color: #7254c7;
+}
+
+.cabecalho-painel p {
+    color: #777;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.conteudo-painel {
+    padding: 25px 0;
+}
+
+.conteudo-painel h2 {
+    margin-bottom: 10px;
+    color: #252548;
+    font-size: 20px;
+}
+
+.conteudo-painel p {
+    color: #777;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.acoes-painel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid #e8e8f0;
+}
+
+.botao-painel {
+    display: inline-block;
+    padding: 13px 22px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.botao-painel:hover {
+    transform: translateY(-2px);
+}
+
+.botao-sair {
+    background-color: #252548;
+    color: #ffffff;
+}
+
+.botao-sair:hover {
+    background-color: #5141a5;
+}
+
+.botao-excluir {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.botao-excluir:hover {
+    background-color: #fecaca;
+}
+
+.voltar-painel {
+    display: block;
+    margin-top: 22px;
+    color: #c4b5fd;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.voltar-painel:hover {
+    color: #ffffff;
+}
+
+/* ==========================================
+   RESPONSIVIDADE
+========================================== */
+
+@media (max-width: 550px) {
+    .card-painel {
+        padding: 28px 22px;
+    }
+
+    .cabecalho-painel h1 {
+        font-size: 24px;
+    }
+
+    .logo-painel {
+        font-size: 24px;
+    }
+
+    .acoes-painel {
+        flex-direction: column;
+    }
+
+    .botao-painel {
+        width: 100%;
+    }
+}
