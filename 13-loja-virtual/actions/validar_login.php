@@ -25,7 +25,9 @@
 
                 $_SESSION["usuario_id"] = $usuario["id"];
                 $_SESSION["usuario_nome"] = $usuario["nome"];
-                echo "Login realizado com sucesso!";
+                
+                header("Location: ../painel.php");
+                exit;
             } else {
                 echo "Email ou senha inválidos.";
             }

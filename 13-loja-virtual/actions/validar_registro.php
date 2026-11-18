@@ -38,7 +38,8 @@
         
         try {
             if ($stmt->execute()) {
-                echo "Registro realizado com sucesso!";
+                header("Location: ../login.php?msg=registro_sucesso");
+                exit;
             } else {
                 echo "Erro ao registrar usuário!";
             }
