@@ -8,6 +8,10 @@
         exit;
     }
 
+    if (empty($_SESSION["csrf_token"])) {
+        $_SESSION["csrf_token"] = bin2hex(random_bytes(32));
+    }
+
     $nome = htmlspecialchars($_SESSION["usuario_nome"], ENT_QUOTES, "UTF-8");
 ?>
 <!DOCTYPE html>
@@ -35,7 +39,11 @@
 
             <div class="acoes-painel">
                 <a href="actions/logout.php" class="botao-painel botao-sair">Sair da conta</a>
-                <a href="actions/delete.php" class="botao-painel botao-excluir" onclick="return confirm('Tem certeza que deseja excluir sua conta? Essa ação não poderá ser desfeita.');">Excluir conta</a>
+
+                <form action="actions/delete.php" method="POST">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION["csrf_token"], ENT_QUOTES, "UTF-8") ?>">
+                    <button type="submit" class="botao-painel botao-excluir" onclick="return confirm('Tem certeza que deseja excluir sua conta? Essa ação não poderá ser desfeita.')">Excluir conta</button>
+                </form>
             </div>
         </section>
 
